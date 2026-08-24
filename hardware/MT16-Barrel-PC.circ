@@ -113,15 +113,99 @@
     <comp lib="0" loc="(540,220)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="Thread"/><a name="type" val="output"/><a name="width" val="2"/></comp>
     <comp lib="0" loc="(540,220)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
   </circuit>
-  <circuit name="MT16_Computer">
-    <a name="appearance" val="logisim_evolution"/>
-    <a name="circuit" val="MT16_Computer"/>
+  <circuit name="MT16_Core">
+    <a name="appearance" val="custom"/>
+    <a name="circuit" val="MT16_Core"/>
     <a name="circuitnamedboxfixedsize" val="true"/>
     <a name="simulationFrequency" val="1.0"/>
+    <appear>
+      <rect fill="#f6f9ff" height="600" rx="18" stroke="#153b66" stroke-width="4" width="360" x="-360" y="-300"/>
+      <rect fill="#153b66" height="54" rx="14" stroke="#153b66" width="360" x="-360" y="-300"/>
+      <text fill="#ffffff" font-family="SansSerif" font-size="20" font-weight="bold" text-anchor="middle" x="-180" y="-266">MT16 BARREL CORE</text>
+      <text fill="#45627f" font-family="SansSerif" font-size="11" text-anchor="middle" x="-180" y="-246">4 CONTEXTS · 16 BIT · MICROCODED</text>
+      <circ-port dir="in" pin="100,100" x="-360" y="-280"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-350" y="-276">CLOCK</text>
+      <circ-port dir="in" pin="100,140" x="-360" y="-250"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-350" y="-246">RESET</text>
+      <rect fill="#ffffff" height="88" rx="10" stroke="#1565c0" stroke-width="2" width="214" x="-343" y="-230"/>
+      <text fill="#1565c0" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-328" y="-210">THREAD 0</text>
+      <circ-port dir="out" pin="2460,820" x="-360" y="-200"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-350" y="-196">PC</text>
+      <circ-port dir="in" pin="100,180" x="-360" y="-160"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-350" y="-156">ROM DATA</text>
+      <text fill="#607d8b" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-328" y="-135">PC · ACC · IR · flags</text>
+      <rect fill="#ffffff" height="88" rx="10" stroke="#6a1b9a" stroke-width="2" width="214" x="-343" y="-110"/>
+      <text fill="#6a1b9a" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-328" y="-90">THREAD 1</text>
+      <circ-port dir="out" pin="2460,870" x="-360" y="-80"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-350" y="-76">PC</text>
+      <circ-port dir="in" pin="100,220" x="-360" y="-40"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-350" y="-36">ROM DATA</text>
+      <text fill="#607d8b" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-328" y="-15">PC · ACC · IR · flags</text>
+      <rect fill="#ffffff" height="88" rx="10" stroke="#00897b" stroke-width="2" width="214" x="-343" y="10"/>
+      <text fill="#00897b" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-328" y="30">THREAD 2</text>
+      <circ-port dir="out" pin="2460,920" x="-360" y="40"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-350" y="44">PC</text>
+      <circ-port dir="in" pin="100,260" x="-360" y="80"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-350" y="84">ROM DATA</text>
+      <text fill="#607d8b" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-328" y="105">PC · ACC · IR · flags</text>
+      <rect fill="#ffffff" height="88" rx="10" stroke="#ef6c00" stroke-width="2" width="214" x="-343" y="130"/>
+      <text fill="#ef6c00" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-328" y="150">THREAD 3</text>
+      <circ-port dir="out" pin="2460,970" x="-360" y="160"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-350" y="164">PC</text>
+      <circ-port dir="in" pin="100,300" x="-360" y="200"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-350" y="204">ROM DATA</text>
+      <text fill="#607d8b" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="start" x="-328" y="225">PC · ACC · IR · flags</text>
+      <circ-port dir="out" pin="2460,120" x="0" y="-240"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-10" y="-236">OUT0</text>
+      <circ-port dir="out" pin="2460,170" x="0" y="-200"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-10" y="-196">OUT1</text>
+      <circ-port dir="out" pin="2460,220" x="0" y="-160"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-10" y="-156">OUT2</text>
+      <circ-port dir="out" pin="2460,270" x="0" y="-120"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-10" y="-116">OUT3</text>
+      <circ-port dir="out" pin="2460,320" x="0" y="-80"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-10" y="-76">ATOMIC</text>
+      <circ-port dir="out" pin="2460,760" x="0" y="-40"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-10" y="-36">ALL HALTED</text>
+      <text fill="#ad1457" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-12" y="40">MEMORY BUS</text>
+      <circ-port dir="out" pin="2460,1420" x="0" y="60"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-10" y="64">ADDRESS</text>
+      <circ-port dir="out" pin="2460,1520" x="0" y="100"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-10" y="104">WRITE ENABLE</text>
+      <circ-port dir="out" pin="2460,1470" x="0" y="140"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-10" y="144">WRITE DATA</text>
+      <circ-port dir="in" pin="100,340" x="0" y="180"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="end" x="-10" y="184">READ DATA</text>
+      <circ-port dir="out" pin="2460,370" x="-330" y="300"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="middle" x="-330" y="286">TID</text>
+      <circ-port dir="out" pin="2460,420" x="-280" y="300"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="middle" x="-280" y="286">PC</text>
+      <circ-port dir="out" pin="2460,470" x="-230" y="300"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="middle" x="-230" y="286">ACC</text>
+      <circ-port dir="out" pin="2460,520" x="-180" y="300"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="middle" x="-180" y="286">IR</text>
+      <circ-port dir="out" pin="2460,570" x="-130" y="300"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="middle" x="-130" y="286">OPER</text>
+      <circ-port dir="out" pin="2460,620" x="-80" y="300"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="middle" x="-80" y="286">STATE</text>
+      <circ-port dir="out" pin="2460,670" x="-30" y="300"/>
+      <text fill="#153b66" font-family="SansSerif" font-size="11" font-weight="bold" text-anchor="middle" x="-30" y="286">HALT</text>
+      <circ-anchor facing="east" x="0" y="0"/>
+    </appear>
     <comp lib="0" loc="(100,100)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="Clock"/></comp>
     <comp lib="0" loc="(100,140)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="Reset"/></comp>
     <comp lib="0" loc="(100,100)" name="Tunnel"><a name="label" val="Clock"/></comp>
     <comp lib="0" loc="(100,140)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="0" loc="(100,180)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="PROG0"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(100,180)" name="Tunnel"><a name="label" val="PROG0"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(100,220)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="PROG1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(100,220)" name="Tunnel"><a name="label" val="PROG1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(100,260)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="PROG2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(100,260)" name="Tunnel"><a name="label" val="PROG2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(100,300)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="PROG3"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(100,300)" name="Tunnel"><a name="label" val="PROG3"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(100,340)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(100,340)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
     <comp lib="3" loc="(300,220)" name="Adder"><a name="width" val="2"/></comp>
     <comp lib="0" loc="(260,210)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
     <comp lib="0" loc="(260,230)" name="Constant"><a name="width" val="2"/><a name="value" val="0x1"/></comp>
@@ -469,86 +553,6 @@
     <comp lib="0" loc="(1540,870)" name="Tunnel"><a name="label" val="HALT3"/></comp>
     <comp lib="0" loc="(1560,880)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
     <comp lib="0" loc="(1580,860)" name="Tunnel"><a name="label" val="HALT"/></comp>
-    <comp lib="4" loc="(100,920)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD_0_ROM"/><a name="contents">addr/data: 8 8
-01 01 03 01 01 0b 03 0b 01 00 03 10 01 01 03 11
-02 10 04 11 03 10 02 11 04 01 03 11 05 0b 0d 22
-0c 10 02 10 03 f0 01 01 0e 30 0f 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-</a></comp>
-    <comp lib="0" loc="(100,930)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
-    <comp lib="0" loc="(340,980)" name="Tunnel"><a name="label" val="PROG0"/><a name="width" val="8"/></comp>
-    <comp lib="4" loc="(100,1090)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD_1_ROM"/><a name="contents">addr/data: 8 8
-01 ff 03 02 01 aa 03 20 01 0f 07 20 08 20 09 00
-06 02 03 f1 01 01 0e 30 0f 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-</a></comp>
-    <comp lib="0" loc="(100,1100)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
-    <comp lib="0" loc="(340,1150)" name="Tunnel"><a name="label" val="PROG1"/><a name="width" val="8"/></comp>
-    <comp lib="4" loc="(100,1260)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD_2_ROM"/><a name="contents">addr/data: 8 8
-01 03 0a 00 0a 00 0a 00 0a 00 0b 00 03 f2 01 01
-0e 30 0f 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-</a></comp>
-    <comp lib="0" loc="(100,1270)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
-    <comp lib="0" loc="(340,1320)" name="Tunnel"><a name="label" val="PROG2"/><a name="width" val="8"/></comp>
-    <comp lib="4" loc="(100,1430)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD_3_ROM"/><a name="contents">addr/data: 8 8
-01 28 03 21 01 02 04 21 03 f3 01 01 0e 30 0f 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-</a></comp>
-    <comp lib="0" loc="(100,1440)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
-    <comp lib="0" loc="(340,1490)" name="Tunnel"><a name="label" val="PROG3"/><a name="width" val="8"/></comp>
     <comp lib="2" loc="(460,1190)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="2"/><a name="width" val="8"/></comp>
     <comp lib="0" loc="(420,1170)" name="Tunnel"><a name="label" val="PROG0"/><a name="width" val="8"/></comp>
     <comp lib="0" loc="(420,1180)" name="Tunnel"><a name="label" val="PROG1"/><a name="width" val="8"/></comp>
@@ -601,13 +605,6 @@
     <comp lib="0" loc="(1430,980)" name="Tunnel"><a name="label" val="CONTROL"/><a name="width" val="32"/></comp>
     <comp lib="0" loc="(1450,990)" name="Constant"><a name="width" val="5"/><a name="value" val="0xc"/></comp>
     <comp lib="0" loc="(1460,980)" name="Tunnel"><a name="label" val="CTRL_HALT"/></comp>
-    <comp lib="4" loc="(1720,920)" name="RAM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="asyncread" val="true"/><a name="byteenables" val="NobyteEnables"/><a name="dataWidth" val="16"/><a name="databus" val="bibus"/><a name="enables" val="byte"/><a name="label" val="SHARED_RAM"/><a name="trigger" val="rising"/></comp>
-    <comp lib="0" loc="(1720,930)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
-    <comp lib="0" loc="(1720,1010)" name="Tunnel"><a name="label" val="MEM_WRITE_DATA"/><a name="width" val="16"/></comp>
-    <comp lib="0" loc="(1720,970)" name="Tunnel"><a name="label" val="MEM_WE"/></comp>
-    <comp lib="0" loc="(1720,980)" name="Tunnel"><a name="label" val="ONE"/></comp>
-    <comp lib="0" loc="(1720,990)" name="Tunnel"><a name="label" val="Clock"/></comp>
-    <comp lib="0" loc="(1960,1010)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
     <comp lib="3" loc="(1180,1080)" name="Comparator"><a name="mode" val="unsigned"/><a name="width" val="2"/></comp>
     <comp lib="0" loc="(1140,1070)" name="Tunnel"><a name="label" val="STATE"/><a name="width" val="2"/></comp>
     <comp lib="0" loc="(1140,1090)" name="Constant"><a name="width" val="2"/><a name="value" val="0x0"/></comp>
@@ -878,5 +875,194 @@
     <comp lib="0" loc="(2320,760)" name="Tunnel"><a name="label" val="ALL_HALTED"/></comp>
     <comp lib="0" loc="(2460,760)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="AllHalted"/><a name="type" val="output"/></comp>
     <comp lib="0" loc="(2460,760)" name="Tunnel"><a name="label" val="ALL_HALTED"/></comp>
+    <comp lib="0" loc="(2460,820)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="PC0"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,820)" name="Tunnel"><a name="label" val="PC0"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,870)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="PC1"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,870)" name="Tunnel"><a name="label" val="PC1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,920)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="PC2"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,920)" name="Tunnel"><a name="label" val="PC2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,970)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="PC3"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,970)" name="Tunnel"><a name="label" val="PC3"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,1420)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="MEM_ADDRESS"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,1420)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,1470)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="MEM_WRITE_DATA"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,1470)" name="Tunnel"><a name="label" val="MEM_WRITE_DATA"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,1520)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="MEM_WE"/><a name="type" val="output"/></comp>
+    <comp lib="0" loc="(2460,1520)" name="Tunnel"><a name="label" val="MEM_WE"/></comp>
+  </circuit>
+  <circuit name="MT16_Computer">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="MT16_Computer"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="8" loc="(70,45)" name="Text"><a name="text" val="MT16 · 4-ПОТОЧНЫЙ МИКРОПРОГРАММНЫЙ КОМПЬЮТЕР"/><a name="font" val="SansSerif bold 26"/><a name="halign" val="left"/></comp>
+    <comp lib="8" loc="(70,75)" name="Text"><a name="text" val="Программа уже в ROM: нажмите ▶ Ticks Enabled — вычисления начнутся сразу"/><a name="font" val="SansSerif plain 15"/><a name="halign" val="left"/></comp>
+    <comp lib="8" loc="(70,105)" name="Text"><a name="text" val="УПРАВЛЕНИЕ"/><a name="font" val="SansSerif bold 14"/><a name="halign" val="left"/></comp>
+    <comp lib="0" loc="(150,130)" name="Clock"></comp>
+    <comp lib="0" loc="(90,170)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="Clock"/></comp>
+    <comp lib="8" loc="(170,135)" name="Text"><a name="text" val="автотакт"/><a name="font" val="SansSerif plain 11"/><a name="halign" val="left"/></comp>
+    <comp lib="5" loc="(150,230)" name="Button"></comp>
+    <comp lib="0" loc="(90,270)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="Reset"/></comp>
+    <comp lib="8" loc="(170,235)" name="Text"><a name="text" val="сброс"/><a name="font" val="SansSerif plain 11"/><a name="halign" val="left"/></comp>
+    <comp lib="1" loc="(270,150)" name="OR Gate"></comp>
+    <wire from="(150,130)" to="(220,130)"/>
+    <wire from="(90,170)" to="(220,170)"/>
+    <comp lib="1" loc="(270,250)" name="OR Gate"></comp>
+    <wire from="(150,230)" to="(220,230)"/>
+    <wire from="(90,270)" to="(220,270)"/>
+    <comp loc="(1000,600)" name="MT16_Core"></comp>
+    <wire from="(270,150)" to="(600,150)"/>
+    <wire from="(600,150)" to="(600,320)"/>
+    <wire from="(600,320)" to="(640,320)"/>
+    <wire from="(270,250)" to="(620,250)"/>
+    <wire from="(620,250)" to="(620,350)"/>
+    <wire from="(620,350)" to="(640,350)"/>
+    <comp lib="8" loc="(290,320)" name="Text"><a name="text" val="ПРОГРАММЫ ПОТОКОВ · 4 × ROM 256 × 8"/><a name="font" val="SansSerif bold 14"/><a name="halign" val="left"/></comp>
+    <comp lib="4" loc="(300,380)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD 0 PROGRAM"/><a name="contents">addr/data: 8 8
+01 01 03 01 01 0b 03 0b 01 00 03 10 01 01 03 11
+02 10 04 11 03 10 02 11 04 01 03 11 05 0b 0d 22
+0c 10 02 10 03 f0 01 01 0e 30 0f 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</a></comp>
+    <wire from="(640,400)" to="(590,400)"/>
+    <wire from="(590,400)" to="(590,390)"/>
+    <wire from="(590,390)" to="(300,390)"/>
+    <wire from="(540,440)" to="(640,440)"/>
+    <comp lib="8" loc="(270,422)" name="Text"><a name="text" val="T0"/><a name="font" val="SansSerif bold 16"/><a name="halign" val="left"/></comp>
+    <comp lib="8" loc="(310,368)" name="Text"><a name="text" val="SUM 1…10 → OUT0"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
+    <comp lib="4" loc="(300,500)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD 1 PROGRAM"/><a name="contents">addr/data: 8 8
+01 ff 03 02 01 aa 03 20 01 0f 07 20 08 20 09 00
+06 02 03 f1 01 01 0e 30 0f 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</a></comp>
+    <wire from="(640,520)" to="(590,520)"/>
+    <wire from="(590,520)" to="(590,510)"/>
+    <wire from="(590,510)" to="(300,510)"/>
+    <wire from="(540,560)" to="(640,560)"/>
+    <comp lib="8" loc="(270,542)" name="Text"><a name="text" val="T1"/><a name="font" val="SansSerif bold 16"/><a name="halign" val="left"/></comp>
+    <comp lib="8" loc="(310,488)" name="Text"><a name="text" val="AND · OR · XOR · NOT → OUT1"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
+    <comp lib="4" loc="(300,620)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD 2 PROGRAM"/><a name="contents">addr/data: 8 8
+01 03 0a 00 0a 00 0a 00 0a 00 0b 00 03 f2 01 01
+0e 30 0f 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</a></comp>
+    <wire from="(640,640)" to="(590,640)"/>
+    <wire from="(590,640)" to="(590,630)"/>
+    <wire from="(590,630)" to="(300,630)"/>
+    <wire from="(540,680)" to="(640,680)"/>
+    <comp lib="8" loc="(270,662)" name="Text"><a name="text" val="T2"/><a name="font" val="SansSerif bold 16"/><a name="halign" val="left"/></comp>
+    <comp lib="8" loc="(310,608)" name="Text"><a name="text" val="SHL · SHR → OUT2"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
+    <comp lib="4" loc="(300,740)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD 3 PROGRAM"/><a name="contents">addr/data: 8 8
+01 28 03 21 01 02 04 21 03 f3 01 01 0e 30 0f 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</a></comp>
+    <wire from="(640,760)" to="(590,760)"/>
+    <wire from="(590,760)" to="(590,750)"/>
+    <wire from="(590,750)" to="(300,750)"/>
+    <wire from="(540,800)" to="(640,800)"/>
+    <comp lib="8" loc="(270,782)" name="Text"><a name="text" val="T3"/><a name="font" val="SansSerif bold 16"/><a name="halign" val="left"/></comp>
+    <comp lib="8" loc="(310,728)" name="Text"><a name="text" val="40 + 2 → OUT3"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
+    <comp lib="8" loc="(1210,615)" name="Text"><a name="text" val="ОБЩАЯ ПАМЯТЬ ДАННЫХ 256 × 16"/><a name="font" val="SansSerif bold 15"/><a name="halign" val="left"/></comp>
+    <comp lib="4" loc="(1240,650)" name="RAM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="asyncread" val="true"/><a name="byteenables" val="NobyteEnables"/><a name="dataWidth" val="16"/><a name="databus" val="bibus"/><a name="enables" val="byte"/><a name="label" val="SHARED RAM"/><a name="trigger" val="rising"/></comp>
+    <wire from="(1000,660)" to="(1240,660)"/>
+    <wire from="(1000,700)" to="(1240,700)"/>
+    <wire from="(1000,740)" to="(1240,740)"/>
+    <comp lib="0" loc="(1200,710)" name="Constant"><a name="value" val="0x1"/></comp>
+    <wire from="(1200,710)" to="(1240,710)"/>
+    <wire from="(600,320)" to="(600,930)"/>
+    <wire from="(600,930)" to="(1180,930)"/>
+    <wire from="(1180,930)" to="(1180,720)"/>
+    <wire from="(1180,720)" to="(1240,720)"/>
+    <wire from="(1480,740)" to="(1520,740)"/>
+    <wire from="(1520,740)" to="(1520,780)"/>
+    <wire from="(1520,780)" to="(1000,780)"/>
+    <comp lib="8" loc="(1120,285)" name="Text"><a name="text" val="РЕЗУЛЬТАТЫ ВСТРОЕННОЙ ПРОГРАММЫ"/><a name="font" val="SansSerif bold 15"/><a name="halign" val="left"/></comp>
+    <wire from="(1000,360)" to="(1600,360)"/>
+    <comp lib="8" loc="(1120,352)" name="Text"><a name="text" val="OUT0 · сумма 1…10"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
+    <comp lib="0" loc="(1600,360)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="OUT0"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <wire from="(1000,400)" to="(1600,400)"/>
+    <comp lib="8" loc="(1120,392)" name="Text"><a name="text" val="OUT1 · логика"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
+    <comp lib="0" loc="(1600,400)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="OUT1"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <wire from="(1000,440)" to="(1600,440)"/>
+    <comp lib="8" loc="(1120,432)" name="Text"><a name="text" val="OUT2 · сдвиги"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
+    <comp lib="0" loc="(1600,440)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="OUT2"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <wire from="(1000,480)" to="(1600,480)"/>
+    <comp lib="8" loc="(1120,472)" name="Text"><a name="text" val="OUT3 · арифметика"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
+    <comp lib="0" loc="(1600,480)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="OUT3"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <wire from="(1000,520)" to="(1600,520)"/>
+    <comp lib="8" loc="(1120,512)" name="Text"><a name="text" val="ATOMIC · 4 потока"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
+    <comp lib="0" loc="(1600,520)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="ATOMIC_COUNT"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <wire from="(1000,560)" to="(1600,560)"/>
+    <comp lib="5" loc="(1370,560)" name="LED"><a name="offColor" val="#37474f"/><a name="onColor" val="#00c853"/></comp>
+    <comp lib="8" loc="(1400,565)" name="Text"><a name="text" val="ГОТОВО / ALL HALTED"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
+    <comp lib="0" loc="(1600,560)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="AllHalted"/><a name="type" val="output"/></comp>
+    <comp lib="8" loc="(730,965)" name="Text"><a name="text" val="ТЕКУЩИЙ КОНТЕКСТ / ОТЛАДКА"/><a name="font" val="SansSerif bold 15"/><a name="halign" val="left"/></comp>
+    <wire from="(670,900)" to="(670,1030)"/>
+    <comp lib="0" loc="(670,1030)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="north"/><a name="label" val="TID"/><a name="type" val="output"/><a name="width" val="2"/></comp>
+    <wire from="(720,900)" to="(720,1030)"/>
+    <comp lib="0" loc="(720,1030)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="north"/><a name="label" val="PC"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <wire from="(770,900)" to="(770,1030)"/>
+    <comp lib="0" loc="(770,1030)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="north"/><a name="label" val="ACC"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <wire from="(820,900)" to="(820,1030)"/>
+    <comp lib="0" loc="(820,1030)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="north"/><a name="label" val="IR"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <wire from="(870,900)" to="(870,1030)"/>
+    <comp lib="0" loc="(870,1030)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="north"/><a name="label" val="OPERAND"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <wire from="(920,900)" to="(920,1030)"/>
+    <comp lib="0" loc="(920,1030)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="north"/><a name="label" val="STATE"/><a name="type" val="output"/><a name="width" val="2"/></comp>
+    <wire from="(970,900)" to="(970,1030)"/>
+    <comp lib="0" loc="(970,1030)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="north"/><a name="label" val="CurrentHalt"/><a name="type" val="output"/></comp>
+    <comp lib="8" loc="(660,1190)" name="Text"><a name="text" val="FETCH OPCODE  →  FETCH OPERAND  →  EXECUTE  →  следующий поток"/><a name="font" val="SansSerif bold 14"/><a name="halign" val="left"/></comp>
   </circuit>
 </project>

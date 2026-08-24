@@ -18,6 +18,7 @@ from mt16.core import MICROCODE, Machine, Opcode, assemble  # noqa: E402
 class Circuit:
     name: str
     items: list[str] = field(default_factory=list)
+    appearance: list[str] = field(default_factory=list)
 
     def comp(self, lib: int, name: str, x: int, y: int, **attrs: object) -> None:
         body = "".join(
@@ -50,6 +51,20 @@ class Circuit:
     def output_pin(self, label: str, width: int, x: int, y: int) -> None:
         self.comp(0, "Pin", x, y, appearance="NewPins", facing="west", label=label,
                   type="output", width=width if width != 1 else None)
+
+    def text(self, value: str, x: int, y: int, size: int = 14, bold: bool = False,
+             align: str = "left") -> None:
+        weight = "bold" if bold else "plain"
+        self.comp(8, "Text", x, y, text=value, font=f"SansSerif {weight} {size}",
+                  halign=align)
+
+    def subcircuit(self, name: str, x: int, y: int, **attrs: object) -> None:
+        body = "".join(
+            f'<a name="{escape(str(key))}" val="{escape(str(value))}"/>'
+            for key, value in attrs.items()
+            if value is not None
+        )
+        self.items.append(f'<comp loc="({x},{y})" name="{escape(name)}">{body}</comp>')
 
     def register(self, label: str, width: int, x: int, y: int, data: str, enable: str) -> None:
         self.comp(4, "Register", x, y, appearance="classic", label=f"R{label}",
@@ -106,12 +121,17 @@ class Circuit:
 
     def serialize(self) -> str:
         body = "\n    ".join(self.items)
+        appearance = ""
+        if self.appearance:
+            appearance = "    <appear>\n      " + "\n      ".join(self.appearance) + "\n    </appear>\n"
+        appearance_mode = "custom" if self.appearance else "logisim_evolution"
         return (
             f'  <circuit name="{escape(self.name)}">\n'
-            '    <a name="appearance" val="logisim_evolution"/>\n'
+            f'    <a name="appearance" val="{appearance_mode}"/>\n'
             f'    <a name="circuit" val="{escape(self.name)}"/>\n'
             '    <a name="circuitnamedboxfixedsize" val="true"/>\n'
             '    <a name="simulationFrequency" val="1.0"/>\n'
+            f'{appearance}'
             f'    {body}\n'
             '  </circuit>'
         )
@@ -209,12 +229,88 @@ def scheduler_circuit() -> Circuit:
     return c
 
 
-def computer_circuit(programs: list[list[int]], control: list[int]) -> Circuit:
-    c = Circuit("MT16_Computer")
+def core_appearance() -> list[str]:
+    """Compact, labelled symbol used by the readable top-level schematic."""
+    objects = [
+        '<rect fill="#f6f9ff" height="600" rx="18" stroke="#153b66" '
+        'stroke-width="4" width="360" x="-360" y="-300"/>',
+        '<rect fill="#153b66" height="54" rx="14" stroke="#153b66" '
+        'width="360" x="-360" y="-300"/>',
+        '<text fill="#ffffff" font-family="SansSerif" font-size="20" '
+        'font-weight="bold" text-anchor="middle" x="-180" y="-266">MT16 BARREL CORE</text>',
+        '<text fill="#45627f" font-family="SansSerif" font-size="11" '
+        'text-anchor="middle" x="-180" y="-246">4 CONTEXTS · 16 BIT · MICROCODED</text>',
+    ]
+
+    def label(text: str, x: int, y: int, anchor: str = "start", color: str = "#153b66") -> None:
+        objects.append(
+            f'<text fill="{color}" font-family="SansSerif" font-size="11" '
+            f'font-weight="bold" text-anchor="{anchor}" x="{x}" y="{y}">{text}</text>'
+        )
+
+    def port(x: int, y: int, direction: str, pin: tuple[int, int]) -> None:
+        objects.append(
+            f'<circ-port dir="{direction}" pin="{pin[0]},{pin[1]}" x="{x}" y="{y}"/>'
+        )
+
+    # Control at the top-left.
+    port(-360, -280, "in", (100, 100)); label("CLOCK", -350, -276)
+    port(-360, -250, "in", (100, 140)); label("RESET", -350, -246)
+
+    # Four physical thread lanes: PC leaves the core, fetched byte returns.
+    lane_y = (-200, -80, 40, 160)
+    lane_colors = ("#1565c0", "#6a1b9a", "#00897b", "#ef6c00")
+    for tid, (y, color) in enumerate(zip(lane_y, lane_colors)):
+        objects.append(
+            f'<rect fill="#ffffff" height="88" rx="10" stroke="{color}" '
+            f'stroke-width="2" width="214" x="-343" y="{y - 30}"/>'
+        )
+        label(f"THREAD {tid}", -328, y - 10, color=color)
+        port(-360, y, "out", (2460, 820 + tid * 50)); label("PC", -350, y + 4)
+        port(-360, y + 40, "in", (100, 180 + tid * 40)); label("ROM DATA", -350, y + 44)
+        label("PC · ACC · IR · flags", -328, y + 65, color="#607d8b")
+
+    # Human-readable result panel on the right.
+    result_ports = (
+        ("OUT0", -240, (2460, 120)), ("OUT1", -200, (2460, 170)),
+        ("OUT2", -160, (2460, 220)), ("OUT3", -120, (2460, 270)),
+        ("ATOMIC", -80, (2460, 320)), ("ALL HALTED", -40, (2460, 760)),
+    )
+    for name, y, pin in result_ports:
+        port(0, y, "out", pin); label(name, -10, y + 4, anchor="end")
+
+    # Shared-memory interface uses true top-level buses.
+    label("MEMORY BUS", -12, 40, anchor="end", color="#ad1457")
+    port(0, 60, "out", (2460, 1420)); label("ADDRESS", -10, 64, anchor="end")
+    port(0, 100, "out", (2460, 1520)); label("WRITE ENABLE", -10, 104, anchor="end")
+    port(0, 140, "out", (2460, 1470)); label("WRITE DATA", -10, 144, anchor="end")
+    port(0, 180, "in", (100, 340)); label("READ DATA", -10, 184, anchor="end")
+
+    # Current-context debug bus along the lower edge.
+    debug = (
+        ("TID", -330, (2460, 370)), ("PC", -280, (2460, 420)),
+        ("ACC", -230, (2460, 470)), ("IR", -180, (2460, 520)),
+        ("OPER", -130, (2460, 570)), ("STATE", -80, (2460, 620)),
+        ("HALT", -30, (2460, 670)),
+    )
+    for name, x, pin in debug:
+        port(x, 300, "out", pin); label(name, x, 286, anchor="middle")
+    objects.append('<circ-anchor facing="east" x="0" y="0"/>')
+    return objects
+
+
+def core_circuit(control: list[int]) -> Circuit:
+    c = Circuit("MT16_Core")
+    c.appearance = core_appearance()
     c.input_pin("Clock", 1, 100, 100)
     c.input_pin("Reset", 1, 100, 140)
     c.tunnel("Clock", 1, 100, 100)
     c.tunnel("Reset", 1, 100, 140)
+    for tid in range(4):
+        c.input_pin(f"PROG{tid}", 8, 100, 180 + tid * 40)
+        c.tunnel(f"PROG{tid}", 8, 100, 180 + tid * 40)
+    c.input_pin("MEM", 16, 100, 340)
+    c.tunnel("MEM", 16, 100, 340)
 
     # Round-robin hardware-thread selector.
     c.comp(3, "Adder", 300, 220, width=2)
@@ -249,12 +345,7 @@ def computer_circuit(programs: list[list[int]], control: list[int]) -> Circuit:
     for name, width, _, _, x in columns:
         c.mux(name, [f"{name}{tid}" for tid in range(4)], "TID", width, x + 80, 860)
 
-    # Program ROM per hardware thread; the selected context chooses the ROM output.
-    for tid, y in enumerate((920, 1090, 1260, 1430)):
-        c.memory(4, "ROM", 100, y, rom_contents(programs[tid], 8, 8),
-                 addrWidth=8, appearance="classic", dataWidth=8, label=f"THREAD_{tid}_ROM")
-        c.tunnel("PC", 8, 100, y + 10)
-        c.tunnel(f"PROG{tid}", 8, 340, y + 60)
+    # Program bytes arrive from the four visibly wired ROMs on the front panel.
     c.mux("PROG", [f"PROG{tid}" for tid in range(4)], "TID", 8, 460, 1190)
 
     # Opcode extraction and genuine microcode control store.
@@ -275,17 +366,6 @@ def computer_circuit(programs: list[list[int]], control: list[int]) -> Circuit:
                          ("CTRL_WPC", 9, 1280), ("CTRL_COND", 10, 1340),
                          ("CTRL_ATOMIC", 11, 1400), ("CTRL_HALT", 12, 1460)):
         c.bit_selector(name, "CONTROL", 32, bit, x, 980)
-
-    # Shared data memory. Ports are explicit to keep the generated project testable.
-    c.comp(4, "RAM", 1720, 920, addrWidth=8, appearance="classic", asyncread="true",
-           byteenables="NobyteEnables", dataWidth=16, databus="bibus", enables="byte",
-           label="SHARED_RAM", trigger="rising")
-    c.tunnel("OPERAND", 8, 1720, 930)
-    c.tunnel("MEM_WRITE_DATA", 16, 1720, 1010)
-    c.tunnel("MEM_WE", 1, 1720, 970)
-    c.tunnel("ONE", 1, 1720, 980)
-    c.tunnel("Clock", 1, 1720, 990)
-    c.tunnel("MEM", 16, 1960, 1010)
 
     # Microsequencer: FETCH_OPCODE -> FETCH_OPERAND -> EXECUTE.
     for state, y in enumerate((1080, 1140, 1200)):
@@ -352,6 +432,112 @@ def computer_circuit(programs: list[list[int]], control: list[int]) -> Circuit:
         c.tunnel(f"HALT{tid}", 1, 2270, 760 + dy)
     c.tunnel("ALL_HALTED", 1, 2320, 760)
     c.output_pin("AllHalted", 1, 2460, 760); c.tunnel("ALL_HALTED", 1, 2460, 760)
+    for tid in range(4):
+        c.output_pin(f"PC{tid}", 8, 2460, 820 + tid * 50)
+        c.tunnel(f"PC{tid}", 8, 2460, 820 + tid * 50)
+    c.output_pin("MEM_ADDRESS", 8, 2460, 1420)
+    c.tunnel("OPERAND", 8, 2460, 1420)
+    c.output_pin("MEM_WRITE_DATA", 16, 2460, 1470)
+    c.tunnel("MEM_WRITE_DATA", 16, 2460, 1470)
+    c.output_pin("MEM_WE", 1, 2460, 1520)
+    c.tunnel("MEM_WE", 1, 2460, 1520)
+    return c
+
+
+def computer_circuit(programs: list[list[int]]) -> Circuit:
+    """Readable front panel with real wires, external ROMs and shared RAM."""
+    c = Circuit("MT16_Computer")
+    c.text("MT16 · 4-ПОТОЧНЫЙ МИКРОПРОГРАММНЫЙ КОМПЬЮТЕР", 70, 45, 26, True)
+    c.text("Программа уже в ROM: нажмите ▶ Ticks Enabled — вычисления начнутся сразу", 70, 75, 15)
+    c.text("УПРАВЛЕНИЕ", 70, 105, 14, True)
+
+    # The built-in clock starts when Logisim's single Play/Ticks button is enabled.
+    # Clock/Reset pins remain connected for deterministic headless test vectors.
+    c.comp(0, "Clock", 150, 130)
+    c.input_pin("Clock", 1, 90, 170)
+    c.text("автотакт", 170, 135, 11)
+    c.comp(5, "Button", 150, 230)
+    c.input_pin("Reset", 1, 90, 270)
+    c.text("сброс", 170, 235, 11)
+    c.comp(1, "OR Gate", 270, 150)
+    c.wire(150, 130, 220, 130); c.wire(90, 170, 220, 170)
+    c.comp(1, "OR Gate", 270, 250)
+    c.wire(150, 230, 220, 230); c.wire(90, 270, 220, 270)
+
+    # The compact symbol is the verified microcoded engine. Its pins are placed
+    # deliberately so the top-level buses read like a computer block diagram.
+    c.subcircuit("MT16_Core", 1000, 600)
+    c.wire(270, 150, 600, 150); c.wire(600, 150, 600, 320); c.wire(600, 320, 640, 320)
+    c.wire(270, 250, 620, 250); c.wire(620, 250, 620, 350); c.wire(620, 350, 640, 350)
+
+    # Four private program ROMs. Address and instruction bytes travel on visible
+    # buses to make the round-robin execution easy to follow on screen.
+    c.text("ПРОГРАММЫ ПОТОКОВ · 4 × ROM 256 × 8", 290, 320, 14, True)
+    summaries = (
+        "SUM 1…10 → OUT0",
+        "AND · OR · XOR · NOT → OUT1",
+        "SHL · SHR → OUT2",
+        "40 + 2 → OUT3",
+    )
+    for tid, y in enumerate((380, 500, 620, 740)):
+        c.memory(4, "ROM", 300, y, rom_contents(programs[tid], 8, 8),
+                 addrWidth=8, appearance="classic", dataWidth=8, label=f"THREAD {tid} PROGRAM")
+        pc_y = 400 + tid * 120
+        program_y = 440 + tid * 120
+        address_y = y + 10
+        data_y = y + 60
+        c.wire(640, pc_y, 590, pc_y)
+        c.wire(590, pc_y, 590, address_y)
+        c.wire(590, address_y, 300, address_y)
+        c.wire(540, data_y, 640, data_y)
+        c.text(f"T{tid}", 270, y + 42, 16, True)
+        c.text(summaries[tid], 310, y - 12, 11, True)
+
+    # Shared data RAM is outside the core symbol and connected by true buses.
+    c.text("ОБЩАЯ ПАМЯТЬ ДАННЫХ 256 × 16", 1210, 615, 15, True)
+    c.comp(4, "RAM", 1240, 650, addrWidth=8, appearance="classic", asyncread="true",
+           byteenables="NobyteEnables", dataWidth=16, databus="bibus", enables="byte",
+           label="SHARED RAM", trigger="rising")
+    c.wire(1000, 660, 1240, 660)
+    c.wire(1000, 700, 1240, 700)
+    c.wire(1000, 740, 1240, 740)
+    c.constant(1, 1, 1200, 710); c.wire(1200, 710, 1240, 710)
+    c.wire(600, 320, 600, 930); c.wire(600, 930, 1180, 930)
+    c.wire(1180, 930, 1180, 720); c.wire(1180, 720, 1240, 720)
+    c.wire(1480, 740, 1520, 740); c.wire(1520, 740, 1520, 780)
+    c.wire(1520, 780, 1000, 780)
+
+    # Result panel: every value is both visible and exported for test vectors.
+    c.text("РЕЗУЛЬТАТЫ ВСТРОЕННОЙ ПРОГРАММЫ", 1120, 285, 15, True)
+    results = (
+        ("OUT0 · сумма 1…10", "OUT0", 16, 360),
+        ("OUT1 · логика", "OUT1", 16, 400),
+        ("OUT2 · сдвиги", "OUT2", 16, 440),
+        ("OUT3 · арифметика", "OUT3", 16, 480),
+        ("ATOMIC · 4 потока", "ATOMIC_COUNT", 16, 520),
+    )
+    for title, label, width, y in results:
+        c.wire(1000, y, 1600, y)
+        c.text(title, 1120, y - 8, 11, True)
+        c.output_pin(label, width, 1600, y)
+    c.wire(1000, 560, 1600, 560)
+    c.comp(5, "LED", 1370, 560, offColor="#37474f", onColor="#00c853")
+    c.text("ГОТОВО / ALL HALTED", 1400, 565, 11, True)
+    c.output_pin("AllHalted", 1, 1600, 560)
+
+    # Current context monitor. The vertical lines visibly pulse as scheduler TID
+    # moves through fetch opcode, fetch operand and execute.
+    c.text("ТЕКУЩИЙ КОНТЕКСТ / ОТЛАДКА", 730, 965, 15, True)
+    debug = (
+        ("TID", 2, 670), ("PC", 8, 720), ("ACC", 16, 770),
+        ("IR", 8, 820), ("OPERAND", 8, 870), ("STATE", 2, 920),
+        ("CurrentHalt", 1, 970),
+    )
+    for label, width, x in debug:
+        c.wire(x, 900, x, 1030)
+        c.comp(0, "Pin", x, 1030, appearance="NewPins", facing="north", label=label,
+               type="output", width=width if width != 1 else None)
+    c.text("FETCH OPCODE  →  FETCH OPERAND  →  EXECUTE  →  следующий поток", 660, 1190, 14, True)
     return c
 
 
@@ -409,7 +595,7 @@ def main() -> int:
     for word in MICROCODE:
         control[int(word.opcode)] = word.encode()
     circuits = [alu_circuit(), microcode_circuit(control), scheduler_circuit(),
-                computer_circuit(image.programs, control)]
+                core_circuit(control), computer_circuit(image.programs)]
     project = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project source="4.1.0" version="1.0">
   <lib desc="#Wiring" name="0"/><lib desc="#Gates" name="1"/><lib desc="#Plexers" name="2"/><lib desc="#Arithmetic" name="3"/><lib desc="#Memory" name="4"/><lib desc="#I/O" name="5"/><lib desc="#TTL" name="6"/><lib desc="#TCL" name="7"/><lib desc="#Base" name="8"/>

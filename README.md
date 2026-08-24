@@ -15,6 +15,8 @@ MT16 — полноценный 16-битный barrel-процессор с ч�
 [`hardware/MT16-Barrel-PC.circ`](hardware/MT16-Barrel-PC.circ) и рассчитана на
 [Logisim Evolution 4.1.0](https://github.com/logisim-evolution/logisim-evolution/releases/tag/v4.1.0).
 
+![Главная схема MT16](docs/MT16-front-panel.png)
+
 ```mermaid
 flowchart TD
     S["Round-robin scheduler\nT0 → T1 → T2 → T3"] --> C["4 context banks\nPC · ACC · IR · operand · state · flags"]
@@ -37,10 +39,15 @@ flowchart TD
 
 ## Быстрый запуск
 
-1. Откройте `hardware/MT16-Barrel-PC.circ` в Logisim Evolution 4.1.0.
-2. Выберите главную схему `MT16_Computer`.
-3. Подайте импульс на `Reset`, затем включите такты (`Simulate → Ticks Enabled`).
-4. Дождитесь `AllHalted = 1`.
+1. Откройте `hardware/MT16-Barrel-PC.circ` в Logisim Evolution 4.1.0 — главная
+   схема `MT16_Computer` и демонстрационная программа уже выбраны.
+2. Нажмите кнопку запуска тактов `▶` (`Simulate → Ticks Enabled`).
+3. Наблюдайте за четырьмя ROM, линиями `PC / ROM DATA`, общей RAM и текущим
+   контекстом. Когда программа закончится, загорится зелёный `AllHalted`.
+
+Ничего загружать в память или настраивать перед запуском не нужно. Встроенный
+`AUTO CLOCK` работает от стандартной кнопки запуска Logisim; `Reset` и внешний
+`Clock` оставлены для ручного пошагового режима и автоматических тестов.
 
 Демонстрация уже записана в четыре ROM. Потоки одновременно вычисляют разные
 задачи и синхронно увеличивают общий счётчик:
