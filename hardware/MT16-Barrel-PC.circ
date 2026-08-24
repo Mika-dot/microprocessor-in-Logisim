@@ -1,0 +1,882 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="4.1.0" version="1.0">
+  <lib desc="#Wiring" name="0"/><lib desc="#Gates" name="1"/><lib desc="#Plexers" name="2"/><lib desc="#Arithmetic" name="3"/><lib desc="#Memory" name="4"/><lib desc="#I/O" name="5"/><lib desc="#TTL" name="6"/><lib desc="#TCL" name="7"/><lib desc="#Base" name="8"/>
+  <main name="MT16_Computer"/>
+  <options><a name="gateUndefined" val="ignore"/><a name="simlimit" val="10000"/><a name="simrand" val="0"/></options>
+  <circuit name="ALU16">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="ALU16"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(100,100)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(100,100)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(100,140)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(100,140)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(100,180)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(100,180)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(100,220)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="OPCODE"/><a name="width" val="4"/></comp>
+    <comp lib="0" loc="(100,220)" name="Tunnel"><a name="label" val="OPCODE"/><a name="width" val="4"/></comp>
+    <comp lib="0" loc="(430,1180)" name="Bit Extender"><a name="in_width" val="8"/><a name="out_width" val="16"/><a name="type" val="zero"/></comp>
+    <comp lib="0" loc="(390,1180)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(430,1180)" name="Tunnel"><a name="label" val="IMM16"/><a name="width" val="16"/></comp>
+    <comp lib="3" loc="(430,1240)" name="Adder"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1230)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1250)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(410,1220)" name="Constant"><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(430,1240)" name="Tunnel"><a name="label" val="ADD_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="3" loc="(430,1300)" name="Subtractor"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1290)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1310)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(410,1280)" name="Constant"><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(430,1300)" name="Tunnel"><a name="label" val="SUB_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="1" loc="(440,1360)" name="AND Gate"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1340)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1380)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(440,1360)" name="Tunnel"><a name="label" val="AND_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="1" loc="(440,1420)" name="OR Gate"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1400)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1440)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(440,1420)" name="Tunnel"><a name="label" val="OR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="1" loc="(440,1480)" name="XOR Gate"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(380,1460)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(380,1500)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(440,1480)" name="Tunnel"><a name="label" val="XOR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="1" loc="(440,1540)" name="NOT Gate"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(410,1540)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(440,1540)" name="Tunnel"><a name="label" val="NOT_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="3" loc="(440,1600)" name="Shifter"><a name="shift" val="ll"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(400,1590)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(400,1610)" name="Constant"><a name="width" val="4"/><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(440,1600)" name="Tunnel"><a name="label" val="SHL_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="3" loc="(440,1660)" name="Shifter"><a name="shift" val="lr"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(400,1650)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(400,1670)" name="Constant"><a name="width" val="4"/><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(440,1660)" name="Tunnel"><a name="label" val="SHR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="2" loc="(760,1420)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="4"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1340)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1350)" name="Tunnel"><a name="label" val="IMM16"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1360)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1370)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1380)" name="Tunnel"><a name="label" val="ADD_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1390)" name="Tunnel"><a name="label" val="SUB_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1400)" name="Tunnel"><a name="label" val="AND_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1410)" name="Tunnel"><a name="label" val="OR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1420)" name="Tunnel"><a name="label" val="XOR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1430)" name="Tunnel"><a name="label" val="NOT_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1440)" name="Tunnel"><a name="label" val="SHL_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1450)" name="Tunnel"><a name="label" val="SHR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1460)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1470)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1480)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(720,1490)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(740,1500)" name="Tunnel"><a name="label" val="OPCODE"/><a name="width" val="4"/></comp>
+    <comp lib="0" loc="(760,1420)" name="Tunnel"><a name="label" val="ACC_NEXT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(920,1420)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="RESULT"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(920,1420)" name="Tunnel"><a name="label" val="ACC_NEXT"/><a name="width" val="16"/></comp>
+  </circuit>
+  <circuit name="MicrocodeControl">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="MicrocodeControl"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(100,100)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="Opcode"/><a name="width" val="4"/></comp>
+    <comp lib="4" loc="(220,80)" name="ROM"><a name="addrWidth" val="4"/><a name="appearance" val="classic"/><a name="dataWidth" val="32"/><a name="contents">addr/data: 4 32
+00000000 00000081 00000082 00000100 0000008b 00000093 0000009b 000000a3 000000ab 000000b3 000000bb 000000c3 00000200 00000600 0000098c 00001000
+</a></comp>
+    <wire from="(100,100)" to="(180,100)"/>
+    <wire from="(180,90)" to="(180,100)"/>
+    <wire from="(180,90)" to="(220,90)"/>
+    <comp lib="0" loc="(560,140)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="Control"/><a name="type" val="output"/><a name="width" val="32"/></comp>
+    <wire from="(460,140)" to="(560,140)"/>
+  </circuit>
+  <circuit name="Scheduler4">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="Scheduler4"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(100,100)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(100,140)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="Reset"/></comp>
+    <comp lib="0" loc="(100,100)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(100,140)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="3" loc="(300,220)" name="Adder"><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(260,210)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(260,230)" name="Constant"><a name="width" val="2"/><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(280,200)" name="Constant"><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(300,220)" name="Tunnel"><a name="label" val="TID_NEXT"/><a name="width" val="2"/></comp>
+    <comp lib="4" loc="(420,220)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RTID"/><a name="trigger" val="rising"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(420,220)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(390,220)" name="Tunnel"><a name="label" val="TID_NEXT"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(390,230)" name="Tunnel"><a name="label" val="ONE"/></comp>
+    <comp lib="0" loc="(400,240)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(410,240)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="0" loc="(390,230)" name="Constant"><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(540,220)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="Thread"/><a name="type" val="output"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(540,220)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+  </circuit>
+  <circuit name="MT16_Computer">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="MT16_Computer"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(100,100)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(100,140)" name="Pin"><a name="appearance" val="NewPins"/><a name="label" val="Reset"/></comp>
+    <comp lib="0" loc="(100,100)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(100,140)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="3" loc="(300,220)" name="Adder"><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(260,210)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(260,230)" name="Constant"><a name="width" val="2"/><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(280,200)" name="Constant"><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(300,220)" name="Tunnel"><a name="label" val="TID_NEXT"/><a name="width" val="2"/></comp>
+    <comp lib="4" loc="(420,220)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RTID"/><a name="trigger" val="rising"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(420,220)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(390,220)" name="Tunnel"><a name="label" val="TID_NEXT"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(390,230)" name="Tunnel"><a name="label" val="SCHED_EN"/></comp>
+    <comp lib="0" loc="(400,240)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(410,240)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="0" loc="(390,230)" name="Constant"><a name="value" val="0x1"/></comp>
+    <comp lib="2" loc="(540,220)" name="Decoder"><a name="enable" val="false"/><a name="select" val="2"/></comp>
+    <comp lib="0" loc="(540,220)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(560,180)" name="Tunnel"><a name="label" val="ACTIVE0"/></comp>
+    <comp lib="0" loc="(560,190)" name="Tunnel"><a name="label" val="ACTIVE1"/></comp>
+    <comp lib="0" loc="(560,200)" name="Tunnel"><a name="label" val="ACTIVE2"/></comp>
+    <comp lib="0" loc="(560,210)" name="Tunnel"><a name="label" val="ACTIVE3"/></comp>
+    <comp lib="1" loc="(220,490)" name="AND Gate"></comp>
+    <comp lib="0" loc="(170,470)" name="Tunnel"><a name="label" val="PC_WE"/></comp>
+    <comp lib="0" loc="(170,510)" name="Tunnel"><a name="label" val="ACTIVE0"/></comp>
+    <comp lib="0" loc="(220,490)" name="Tunnel"><a name="label" val="PC_WE0"/></comp>
+    <comp lib="4" loc="(300,420)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RPC0"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(300,420)" name="Tunnel"><a name="label" val="PC0"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(270,420)" name="Tunnel"><a name="label" val="PC_NEXT"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(270,430)" name="Tunnel"><a name="label" val="PC_WE0"/></comp>
+    <comp lib="0" loc="(280,440)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(290,440)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(420,490)" name="AND Gate"></comp>
+    <comp lib="0" loc="(370,470)" name="Tunnel"><a name="label" val="ACC_WE"/></comp>
+    <comp lib="0" loc="(370,510)" name="Tunnel"><a name="label" val="ACTIVE0"/></comp>
+    <comp lib="0" loc="(420,490)" name="Tunnel"><a name="label" val="ACC_WE0"/></comp>
+    <comp lib="4" loc="(500,420)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RACC0"/><a name="trigger" val="rising"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(500,420)" name="Tunnel"><a name="label" val="ACC0"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(470,420)" name="Tunnel"><a name="label" val="ACC_NEXT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(470,430)" name="Tunnel"><a name="label" val="ACC_WE0"/></comp>
+    <comp lib="0" loc="(480,440)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(490,440)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(620,490)" name="AND Gate"></comp>
+    <comp lib="0" loc="(570,470)" name="Tunnel"><a name="label" val="IR_WE"/></comp>
+    <comp lib="0" loc="(570,510)" name="Tunnel"><a name="label" val="ACTIVE0"/></comp>
+    <comp lib="0" loc="(620,490)" name="Tunnel"><a name="label" val="IR_WE0"/></comp>
+    <comp lib="4" loc="(700,420)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RIR0"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(700,420)" name="Tunnel"><a name="label" val="IR0"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(670,420)" name="Tunnel"><a name="label" val="PROG"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(670,430)" name="Tunnel"><a name="label" val="IR_WE0"/></comp>
+    <comp lib="0" loc="(680,440)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(690,440)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(820,490)" name="AND Gate"></comp>
+    <comp lib="0" loc="(770,470)" name="Tunnel"><a name="label" val="OPERAND_WE"/></comp>
+    <comp lib="0" loc="(770,510)" name="Tunnel"><a name="label" val="ACTIVE0"/></comp>
+    <comp lib="0" loc="(820,490)" name="Tunnel"><a name="label" val="OPERAND_WE0"/></comp>
+    <comp lib="4" loc="(900,420)" name="Register"><a name="appearance" val="classic"/><a name="label" val="ROPERAND0"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(900,420)" name="Tunnel"><a name="label" val="OPERAND0"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(870,420)" name="Tunnel"><a name="label" val="PROG"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(870,430)" name="Tunnel"><a name="label" val="OPERAND_WE0"/></comp>
+    <comp lib="0" loc="(880,440)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(890,440)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1020,490)" name="AND Gate"></comp>
+    <comp lib="0" loc="(970,470)" name="Tunnel"><a name="label" val="STATE_WE"/></comp>
+    <comp lib="0" loc="(970,510)" name="Tunnel"><a name="label" val="ACTIVE0"/></comp>
+    <comp lib="0" loc="(1020,490)" name="Tunnel"><a name="label" val="STATE_WE0"/></comp>
+    <comp lib="4" loc="(1100,420)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RSTATE0"/><a name="trigger" val="rising"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1100,420)" name="Tunnel"><a name="label" val="STATE0"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1070,420)" name="Tunnel"><a name="label" val="STATE_NEXT"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1070,430)" name="Tunnel"><a name="label" val="STATE_WE0"/></comp>
+    <comp lib="0" loc="(1080,440)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1090,440)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1220,490)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1170,470)" name="Tunnel"><a name="label" val="ZERO_WE"/></comp>
+    <comp lib="0" loc="(1170,510)" name="Tunnel"><a name="label" val="ACTIVE0"/></comp>
+    <comp lib="0" loc="(1220,490)" name="Tunnel"><a name="label" val="ZERO_WE0"/></comp>
+    <comp lib="4" loc="(1300,420)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RZERO0"/><a name="trigger" val="rising"/><a name="width" val="1"/></comp>
+    <comp lib="0" loc="(1300,420)" name="Tunnel"><a name="label" val="ZERO0"/></comp>
+    <comp lib="0" loc="(1270,420)" name="Tunnel"><a name="label" val="ZERO_NEXT"/></comp>
+    <comp lib="0" loc="(1270,430)" name="Tunnel"><a name="label" val="ZERO_WE0"/></comp>
+    <comp lib="0" loc="(1280,440)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1290,440)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1420,490)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1370,470)" name="Tunnel"><a name="label" val="HALT_WE"/></comp>
+    <comp lib="0" loc="(1370,510)" name="Tunnel"><a name="label" val="ACTIVE0"/></comp>
+    <comp lib="0" loc="(1420,490)" name="Tunnel"><a name="label" val="HALT_WE0"/></comp>
+    <comp lib="4" loc="(1500,420)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RHALT0"/><a name="trigger" val="rising"/><a name="width" val="1"/></comp>
+    <comp lib="0" loc="(1500,420)" name="Tunnel"><a name="label" val="HALT0"/></comp>
+    <comp lib="0" loc="(1470,420)" name="Tunnel"><a name="label" val="ONE"/></comp>
+    <comp lib="0" loc="(1470,430)" name="Tunnel"><a name="label" val="HALT_WE0"/></comp>
+    <comp lib="0" loc="(1480,440)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1490,440)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(220,590)" name="AND Gate"></comp>
+    <comp lib="0" loc="(170,570)" name="Tunnel"><a name="label" val="PC_WE"/></comp>
+    <comp lib="0" loc="(170,610)" name="Tunnel"><a name="label" val="ACTIVE1"/></comp>
+    <comp lib="0" loc="(220,590)" name="Tunnel"><a name="label" val="PC_WE1"/></comp>
+    <comp lib="4" loc="(300,520)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RPC1"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(300,520)" name="Tunnel"><a name="label" val="PC1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(270,520)" name="Tunnel"><a name="label" val="PC_NEXT"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(270,530)" name="Tunnel"><a name="label" val="PC_WE1"/></comp>
+    <comp lib="0" loc="(280,540)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(290,540)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(420,590)" name="AND Gate"></comp>
+    <comp lib="0" loc="(370,570)" name="Tunnel"><a name="label" val="ACC_WE"/></comp>
+    <comp lib="0" loc="(370,610)" name="Tunnel"><a name="label" val="ACTIVE1"/></comp>
+    <comp lib="0" loc="(420,590)" name="Tunnel"><a name="label" val="ACC_WE1"/></comp>
+    <comp lib="4" loc="(500,520)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RACC1"/><a name="trigger" val="rising"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(500,520)" name="Tunnel"><a name="label" val="ACC1"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(470,520)" name="Tunnel"><a name="label" val="ACC_NEXT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(470,530)" name="Tunnel"><a name="label" val="ACC_WE1"/></comp>
+    <comp lib="0" loc="(480,540)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(490,540)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(620,590)" name="AND Gate"></comp>
+    <comp lib="0" loc="(570,570)" name="Tunnel"><a name="label" val="IR_WE"/></comp>
+    <comp lib="0" loc="(570,610)" name="Tunnel"><a name="label" val="ACTIVE1"/></comp>
+    <comp lib="0" loc="(620,590)" name="Tunnel"><a name="label" val="IR_WE1"/></comp>
+    <comp lib="4" loc="(700,520)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RIR1"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(700,520)" name="Tunnel"><a name="label" val="IR1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(670,520)" name="Tunnel"><a name="label" val="PROG"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(670,530)" name="Tunnel"><a name="label" val="IR_WE1"/></comp>
+    <comp lib="0" loc="(680,540)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(690,540)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(820,590)" name="AND Gate"></comp>
+    <comp lib="0" loc="(770,570)" name="Tunnel"><a name="label" val="OPERAND_WE"/></comp>
+    <comp lib="0" loc="(770,610)" name="Tunnel"><a name="label" val="ACTIVE1"/></comp>
+    <comp lib="0" loc="(820,590)" name="Tunnel"><a name="label" val="OPERAND_WE1"/></comp>
+    <comp lib="4" loc="(900,520)" name="Register"><a name="appearance" val="classic"/><a name="label" val="ROPERAND1"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(900,520)" name="Tunnel"><a name="label" val="OPERAND1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(870,520)" name="Tunnel"><a name="label" val="PROG"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(870,530)" name="Tunnel"><a name="label" val="OPERAND_WE1"/></comp>
+    <comp lib="0" loc="(880,540)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(890,540)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1020,590)" name="AND Gate"></comp>
+    <comp lib="0" loc="(970,570)" name="Tunnel"><a name="label" val="STATE_WE"/></comp>
+    <comp lib="0" loc="(970,610)" name="Tunnel"><a name="label" val="ACTIVE1"/></comp>
+    <comp lib="0" loc="(1020,590)" name="Tunnel"><a name="label" val="STATE_WE1"/></comp>
+    <comp lib="4" loc="(1100,520)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RSTATE1"/><a name="trigger" val="rising"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1100,520)" name="Tunnel"><a name="label" val="STATE1"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1070,520)" name="Tunnel"><a name="label" val="STATE_NEXT"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1070,530)" name="Tunnel"><a name="label" val="STATE_WE1"/></comp>
+    <comp lib="0" loc="(1080,540)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1090,540)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1220,590)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1170,570)" name="Tunnel"><a name="label" val="ZERO_WE"/></comp>
+    <comp lib="0" loc="(1170,610)" name="Tunnel"><a name="label" val="ACTIVE1"/></comp>
+    <comp lib="0" loc="(1220,590)" name="Tunnel"><a name="label" val="ZERO_WE1"/></comp>
+    <comp lib="4" loc="(1300,520)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RZERO1"/><a name="trigger" val="rising"/><a name="width" val="1"/></comp>
+    <comp lib="0" loc="(1300,520)" name="Tunnel"><a name="label" val="ZERO1"/></comp>
+    <comp lib="0" loc="(1270,520)" name="Tunnel"><a name="label" val="ZERO_NEXT"/></comp>
+    <comp lib="0" loc="(1270,530)" name="Tunnel"><a name="label" val="ZERO_WE1"/></comp>
+    <comp lib="0" loc="(1280,540)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1290,540)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1420,590)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1370,570)" name="Tunnel"><a name="label" val="HALT_WE"/></comp>
+    <comp lib="0" loc="(1370,610)" name="Tunnel"><a name="label" val="ACTIVE1"/></comp>
+    <comp lib="0" loc="(1420,590)" name="Tunnel"><a name="label" val="HALT_WE1"/></comp>
+    <comp lib="4" loc="(1500,520)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RHALT1"/><a name="trigger" val="rising"/><a name="width" val="1"/></comp>
+    <comp lib="0" loc="(1500,520)" name="Tunnel"><a name="label" val="HALT1"/></comp>
+    <comp lib="0" loc="(1470,520)" name="Tunnel"><a name="label" val="ONE"/></comp>
+    <comp lib="0" loc="(1470,530)" name="Tunnel"><a name="label" val="HALT_WE1"/></comp>
+    <comp lib="0" loc="(1480,540)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1490,540)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(220,690)" name="AND Gate"></comp>
+    <comp lib="0" loc="(170,670)" name="Tunnel"><a name="label" val="PC_WE"/></comp>
+    <comp lib="0" loc="(170,710)" name="Tunnel"><a name="label" val="ACTIVE2"/></comp>
+    <comp lib="0" loc="(220,690)" name="Tunnel"><a name="label" val="PC_WE2"/></comp>
+    <comp lib="4" loc="(300,620)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RPC2"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(300,620)" name="Tunnel"><a name="label" val="PC2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(270,620)" name="Tunnel"><a name="label" val="PC_NEXT"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(270,630)" name="Tunnel"><a name="label" val="PC_WE2"/></comp>
+    <comp lib="0" loc="(280,640)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(290,640)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(420,690)" name="AND Gate"></comp>
+    <comp lib="0" loc="(370,670)" name="Tunnel"><a name="label" val="ACC_WE"/></comp>
+    <comp lib="0" loc="(370,710)" name="Tunnel"><a name="label" val="ACTIVE2"/></comp>
+    <comp lib="0" loc="(420,690)" name="Tunnel"><a name="label" val="ACC_WE2"/></comp>
+    <comp lib="4" loc="(500,620)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RACC2"/><a name="trigger" val="rising"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(500,620)" name="Tunnel"><a name="label" val="ACC2"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(470,620)" name="Tunnel"><a name="label" val="ACC_NEXT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(470,630)" name="Tunnel"><a name="label" val="ACC_WE2"/></comp>
+    <comp lib="0" loc="(480,640)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(490,640)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(620,690)" name="AND Gate"></comp>
+    <comp lib="0" loc="(570,670)" name="Tunnel"><a name="label" val="IR_WE"/></comp>
+    <comp lib="0" loc="(570,710)" name="Tunnel"><a name="label" val="ACTIVE2"/></comp>
+    <comp lib="0" loc="(620,690)" name="Tunnel"><a name="label" val="IR_WE2"/></comp>
+    <comp lib="4" loc="(700,620)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RIR2"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(700,620)" name="Tunnel"><a name="label" val="IR2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(670,620)" name="Tunnel"><a name="label" val="PROG"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(670,630)" name="Tunnel"><a name="label" val="IR_WE2"/></comp>
+    <comp lib="0" loc="(680,640)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(690,640)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(820,690)" name="AND Gate"></comp>
+    <comp lib="0" loc="(770,670)" name="Tunnel"><a name="label" val="OPERAND_WE"/></comp>
+    <comp lib="0" loc="(770,710)" name="Tunnel"><a name="label" val="ACTIVE2"/></comp>
+    <comp lib="0" loc="(820,690)" name="Tunnel"><a name="label" val="OPERAND_WE2"/></comp>
+    <comp lib="4" loc="(900,620)" name="Register"><a name="appearance" val="classic"/><a name="label" val="ROPERAND2"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(900,620)" name="Tunnel"><a name="label" val="OPERAND2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(870,620)" name="Tunnel"><a name="label" val="PROG"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(870,630)" name="Tunnel"><a name="label" val="OPERAND_WE2"/></comp>
+    <comp lib="0" loc="(880,640)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(890,640)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1020,690)" name="AND Gate"></comp>
+    <comp lib="0" loc="(970,670)" name="Tunnel"><a name="label" val="STATE_WE"/></comp>
+    <comp lib="0" loc="(970,710)" name="Tunnel"><a name="label" val="ACTIVE2"/></comp>
+    <comp lib="0" loc="(1020,690)" name="Tunnel"><a name="label" val="STATE_WE2"/></comp>
+    <comp lib="4" loc="(1100,620)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RSTATE2"/><a name="trigger" val="rising"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1100,620)" name="Tunnel"><a name="label" val="STATE2"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1070,620)" name="Tunnel"><a name="label" val="STATE_NEXT"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1070,630)" name="Tunnel"><a name="label" val="STATE_WE2"/></comp>
+    <comp lib="0" loc="(1080,640)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1090,640)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1220,690)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1170,670)" name="Tunnel"><a name="label" val="ZERO_WE"/></comp>
+    <comp lib="0" loc="(1170,710)" name="Tunnel"><a name="label" val="ACTIVE2"/></comp>
+    <comp lib="0" loc="(1220,690)" name="Tunnel"><a name="label" val="ZERO_WE2"/></comp>
+    <comp lib="4" loc="(1300,620)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RZERO2"/><a name="trigger" val="rising"/><a name="width" val="1"/></comp>
+    <comp lib="0" loc="(1300,620)" name="Tunnel"><a name="label" val="ZERO2"/></comp>
+    <comp lib="0" loc="(1270,620)" name="Tunnel"><a name="label" val="ZERO_NEXT"/></comp>
+    <comp lib="0" loc="(1270,630)" name="Tunnel"><a name="label" val="ZERO_WE2"/></comp>
+    <comp lib="0" loc="(1280,640)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1290,640)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1420,690)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1370,670)" name="Tunnel"><a name="label" val="HALT_WE"/></comp>
+    <comp lib="0" loc="(1370,710)" name="Tunnel"><a name="label" val="ACTIVE2"/></comp>
+    <comp lib="0" loc="(1420,690)" name="Tunnel"><a name="label" val="HALT_WE2"/></comp>
+    <comp lib="4" loc="(1500,620)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RHALT2"/><a name="trigger" val="rising"/><a name="width" val="1"/></comp>
+    <comp lib="0" loc="(1500,620)" name="Tunnel"><a name="label" val="HALT2"/></comp>
+    <comp lib="0" loc="(1470,620)" name="Tunnel"><a name="label" val="ONE"/></comp>
+    <comp lib="0" loc="(1470,630)" name="Tunnel"><a name="label" val="HALT_WE2"/></comp>
+    <comp lib="0" loc="(1480,640)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1490,640)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(220,790)" name="AND Gate"></comp>
+    <comp lib="0" loc="(170,770)" name="Tunnel"><a name="label" val="PC_WE"/></comp>
+    <comp lib="0" loc="(170,810)" name="Tunnel"><a name="label" val="ACTIVE3"/></comp>
+    <comp lib="0" loc="(220,790)" name="Tunnel"><a name="label" val="PC_WE3"/></comp>
+    <comp lib="4" loc="(300,720)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RPC3"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(300,720)" name="Tunnel"><a name="label" val="PC3"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(270,720)" name="Tunnel"><a name="label" val="PC_NEXT"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(270,730)" name="Tunnel"><a name="label" val="PC_WE3"/></comp>
+    <comp lib="0" loc="(280,740)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(290,740)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(420,790)" name="AND Gate"></comp>
+    <comp lib="0" loc="(370,770)" name="Tunnel"><a name="label" val="ACC_WE"/></comp>
+    <comp lib="0" loc="(370,810)" name="Tunnel"><a name="label" val="ACTIVE3"/></comp>
+    <comp lib="0" loc="(420,790)" name="Tunnel"><a name="label" val="ACC_WE3"/></comp>
+    <comp lib="4" loc="(500,720)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RACC3"/><a name="trigger" val="rising"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(500,720)" name="Tunnel"><a name="label" val="ACC3"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(470,720)" name="Tunnel"><a name="label" val="ACC_NEXT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(470,730)" name="Tunnel"><a name="label" val="ACC_WE3"/></comp>
+    <comp lib="0" loc="(480,740)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(490,740)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(620,790)" name="AND Gate"></comp>
+    <comp lib="0" loc="(570,770)" name="Tunnel"><a name="label" val="IR_WE"/></comp>
+    <comp lib="0" loc="(570,810)" name="Tunnel"><a name="label" val="ACTIVE3"/></comp>
+    <comp lib="0" loc="(620,790)" name="Tunnel"><a name="label" val="IR_WE3"/></comp>
+    <comp lib="4" loc="(700,720)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RIR3"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(700,720)" name="Tunnel"><a name="label" val="IR3"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(670,720)" name="Tunnel"><a name="label" val="PROG"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(670,730)" name="Tunnel"><a name="label" val="IR_WE3"/></comp>
+    <comp lib="0" loc="(680,740)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(690,740)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(820,790)" name="AND Gate"></comp>
+    <comp lib="0" loc="(770,770)" name="Tunnel"><a name="label" val="OPERAND_WE"/></comp>
+    <comp lib="0" loc="(770,810)" name="Tunnel"><a name="label" val="ACTIVE3"/></comp>
+    <comp lib="0" loc="(820,790)" name="Tunnel"><a name="label" val="OPERAND_WE3"/></comp>
+    <comp lib="4" loc="(900,720)" name="Register"><a name="appearance" val="classic"/><a name="label" val="ROPERAND3"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(900,720)" name="Tunnel"><a name="label" val="OPERAND3"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(870,720)" name="Tunnel"><a name="label" val="PROG"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(870,730)" name="Tunnel"><a name="label" val="OPERAND_WE3"/></comp>
+    <comp lib="0" loc="(880,740)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(890,740)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1020,790)" name="AND Gate"></comp>
+    <comp lib="0" loc="(970,770)" name="Tunnel"><a name="label" val="STATE_WE"/></comp>
+    <comp lib="0" loc="(970,810)" name="Tunnel"><a name="label" val="ACTIVE3"/></comp>
+    <comp lib="0" loc="(1020,790)" name="Tunnel"><a name="label" val="STATE_WE3"/></comp>
+    <comp lib="4" loc="(1100,720)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RSTATE3"/><a name="trigger" val="rising"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1100,720)" name="Tunnel"><a name="label" val="STATE3"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1070,720)" name="Tunnel"><a name="label" val="STATE_NEXT"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1070,730)" name="Tunnel"><a name="label" val="STATE_WE3"/></comp>
+    <comp lib="0" loc="(1080,740)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1090,740)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1220,790)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1170,770)" name="Tunnel"><a name="label" val="ZERO_WE"/></comp>
+    <comp lib="0" loc="(1170,810)" name="Tunnel"><a name="label" val="ACTIVE3"/></comp>
+    <comp lib="0" loc="(1220,790)" name="Tunnel"><a name="label" val="ZERO_WE3"/></comp>
+    <comp lib="4" loc="(1300,720)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RZERO3"/><a name="trigger" val="rising"/><a name="width" val="1"/></comp>
+    <comp lib="0" loc="(1300,720)" name="Tunnel"><a name="label" val="ZERO3"/></comp>
+    <comp lib="0" loc="(1270,720)" name="Tunnel"><a name="label" val="ZERO_NEXT"/></comp>
+    <comp lib="0" loc="(1270,730)" name="Tunnel"><a name="label" val="ZERO_WE3"/></comp>
+    <comp lib="0" loc="(1280,740)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1290,740)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="1" loc="(1420,790)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1370,770)" name="Tunnel"><a name="label" val="HALT_WE"/></comp>
+    <comp lib="0" loc="(1370,810)" name="Tunnel"><a name="label" val="ACTIVE3"/></comp>
+    <comp lib="0" loc="(1420,790)" name="Tunnel"><a name="label" val="HALT_WE3"/></comp>
+    <comp lib="4" loc="(1500,720)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RHALT3"/><a name="trigger" val="rising"/><a name="width" val="1"/></comp>
+    <comp lib="0" loc="(1500,720)" name="Tunnel"><a name="label" val="HALT3"/></comp>
+    <comp lib="0" loc="(1470,720)" name="Tunnel"><a name="label" val="ONE"/></comp>
+    <comp lib="0" loc="(1470,730)" name="Tunnel"><a name="label" val="HALT_WE3"/></comp>
+    <comp lib="0" loc="(1480,740)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1490,740)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="2" loc="(380,860)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(340,840)" name="Tunnel"><a name="label" val="PC0"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(340,850)" name="Tunnel"><a name="label" val="PC1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(340,860)" name="Tunnel"><a name="label" val="PC2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(340,870)" name="Tunnel"><a name="label" val="PC3"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(360,880)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(380,860)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
+    <comp lib="2" loc="(580,860)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="2"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(540,840)" name="Tunnel"><a name="label" val="ACC0"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(540,850)" name="Tunnel"><a name="label" val="ACC1"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(540,860)" name="Tunnel"><a name="label" val="ACC2"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(540,870)" name="Tunnel"><a name="label" val="ACC3"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(560,880)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(580,860)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="2" loc="(780,860)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(740,840)" name="Tunnel"><a name="label" val="IR0"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(740,850)" name="Tunnel"><a name="label" val="IR1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(740,860)" name="Tunnel"><a name="label" val="IR2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(740,870)" name="Tunnel"><a name="label" val="IR3"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(760,880)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(780,860)" name="Tunnel"><a name="label" val="IR"/><a name="width" val="8"/></comp>
+    <comp lib="2" loc="(980,860)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(940,840)" name="Tunnel"><a name="label" val="OPERAND0"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(940,850)" name="Tunnel"><a name="label" val="OPERAND1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(940,860)" name="Tunnel"><a name="label" val="OPERAND2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(940,870)" name="Tunnel"><a name="label" val="OPERAND3"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(960,880)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(980,860)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="2" loc="(1180,860)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="2"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1140,840)" name="Tunnel"><a name="label" val="STATE0"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1140,850)" name="Tunnel"><a name="label" val="STATE1"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1140,860)" name="Tunnel"><a name="label" val="STATE2"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1140,870)" name="Tunnel"><a name="label" val="STATE3"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1160,880)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1180,860)" name="Tunnel"><a name="label" val="STATE"/><a name="width" val="2"/></comp>
+    <comp lib="2" loc="(1380,860)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="2"/></comp>
+    <comp lib="0" loc="(1340,840)" name="Tunnel"><a name="label" val="ZERO0"/></comp>
+    <comp lib="0" loc="(1340,850)" name="Tunnel"><a name="label" val="ZERO1"/></comp>
+    <comp lib="0" loc="(1340,860)" name="Tunnel"><a name="label" val="ZERO2"/></comp>
+    <comp lib="0" loc="(1340,870)" name="Tunnel"><a name="label" val="ZERO3"/></comp>
+    <comp lib="0" loc="(1360,880)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1380,860)" name="Tunnel"><a name="label" val="ZERO"/></comp>
+    <comp lib="2" loc="(1580,860)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="2"/></comp>
+    <comp lib="0" loc="(1540,840)" name="Tunnel"><a name="label" val="HALT0"/></comp>
+    <comp lib="0" loc="(1540,850)" name="Tunnel"><a name="label" val="HALT1"/></comp>
+    <comp lib="0" loc="(1540,860)" name="Tunnel"><a name="label" val="HALT2"/></comp>
+    <comp lib="0" loc="(1540,870)" name="Tunnel"><a name="label" val="HALT3"/></comp>
+    <comp lib="0" loc="(1560,880)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1580,860)" name="Tunnel"><a name="label" val="HALT"/></comp>
+    <comp lib="4" loc="(100,920)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD_0_ROM"/><a name="contents">addr/data: 8 8
+01 01 03 01 01 0b 03 0b 01 00 03 10 01 01 03 11
+02 10 04 11 03 10 02 11 04 01 03 11 05 0b 0d 22
+0c 10 02 10 03 f0 01 01 0e 30 0f 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</a></comp>
+    <comp lib="0" loc="(100,930)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(340,980)" name="Tunnel"><a name="label" val="PROG0"/><a name="width" val="8"/></comp>
+    <comp lib="4" loc="(100,1090)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD_1_ROM"/><a name="contents">addr/data: 8 8
+01 ff 03 02 01 aa 03 20 01 0f 07 20 08 20 09 00
+06 02 03 f1 01 01 0e 30 0f 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</a></comp>
+    <comp lib="0" loc="(100,1100)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(340,1150)" name="Tunnel"><a name="label" val="PROG1"/><a name="width" val="8"/></comp>
+    <comp lib="4" loc="(100,1260)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD_2_ROM"/><a name="contents">addr/data: 8 8
+01 03 0a 00 0a 00 0a 00 0a 00 0b 00 03 f2 01 01
+0e 30 0f 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</a></comp>
+    <comp lib="0" loc="(100,1270)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(340,1320)" name="Tunnel"><a name="label" val="PROG2"/><a name="width" val="8"/></comp>
+    <comp lib="4" loc="(100,1430)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD_3_ROM"/><a name="contents">addr/data: 8 8
+01 28 03 21 01 02 04 21 03 f3 01 01 0e 30 0f 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</a></comp>
+    <comp lib="0" loc="(100,1440)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(340,1490)" name="Tunnel"><a name="label" val="PROG3"/><a name="width" val="8"/></comp>
+    <comp lib="2" loc="(460,1190)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(420,1170)" name="Tunnel"><a name="label" val="PROG0"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(420,1180)" name="Tunnel"><a name="label" val="PROG1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(420,1190)" name="Tunnel"><a name="label" val="PROG2"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(420,1200)" name="Tunnel"><a name="label" val="PROG3"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(440,1210)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(460,1190)" name="Tunnel"><a name="label" val="PROG"/><a name="width" val="8"/></comp>
+    <comp lib="2" loc="(720,980)" name="BitSelector"><a name="group" val="4"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(690,980)" name="Tunnel"><a name="label" val="IR"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(710,990)" name="Constant"><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(720,980)" name="Tunnel"><a name="label" val="OPCODE"/><a name="width" val="4"/></comp>
+    <comp lib="4" loc="(800,920)" name="ROM"><a name="addrWidth" val="4"/><a name="appearance" val="classic"/><a name="dataWidth" val="32"/><a name="label" val="CONTROL_ROM"/><a name="contents">addr/data: 4 32
+00000000 00000081 00000082 00000100 0000008b 00000093 0000009b 000000a3 000000ab 000000b3 000000bb 000000c3 00000200 00000600 0000098c 00001000
+</a></comp>
+    <comp lib="0" loc="(800,930)" name="Tunnel"><a name="label" val="OPCODE"/><a name="width" val="4"/></comp>
+    <comp lib="0" loc="(1040,980)" name="Tunnel"><a name="label" val="CONTROL"/><a name="width" val="32"/></comp>
+    <comp lib="2" loc="(1100,860)" name="BitSelector"><a name="group" val="3"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1070,860)" name="Tunnel"><a name="label" val="CONTROL"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1090,870)" name="Constant"><a name="width" val="4"/><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(1100,860)" name="Tunnel"><a name="label" val="CTRL_ACC_SOURCE"/><a name="width" val="3"/></comp>
+    <comp lib="3" loc="(1100,900)" name="Shifter"><a name="shift" val="lr"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1060,890)" name="Tunnel"><a name="label" val="CONTROL"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1060,910)" name="Constant"><a name="width" val="5"/><a name="value" val="0x3"/></comp>
+    <comp lib="0" loc="(1100,900)" name="Tunnel"><a name="label" val="CONTROL_SHIFT3"/><a name="width" val="32"/></comp>
+    <comp lib="2" loc="(1180,900)" name="BitSelector"><a name="group" val="4"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1150,900)" name="Tunnel"><a name="label" val="CONTROL_SHIFT3"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1170,910)" name="Constant"><a name="width" val="3"/><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(1180,900)" name="Tunnel"><a name="label" val="CTRL_ALU_OP"/><a name="width" val="4"/></comp>
+    <comp lib="2" loc="(1160,980)" name="BitSelector"><a name="group" val="1"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1130,980)" name="Tunnel"><a name="label" val="CONTROL"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1150,990)" name="Constant"><a name="width" val="5"/><a name="value" val="0x7"/></comp>
+    <comp lib="0" loc="(1160,980)" name="Tunnel"><a name="label" val="CTRL_WACC"/></comp>
+    <comp lib="2" loc="(1220,980)" name="BitSelector"><a name="group" val="1"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1190,980)" name="Tunnel"><a name="label" val="CONTROL"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1210,990)" name="Constant"><a name="width" val="5"/><a name="value" val="0x8"/></comp>
+    <comp lib="0" loc="(1220,980)" name="Tunnel"><a name="label" val="CTRL_WMEM"/></comp>
+    <comp lib="2" loc="(1280,980)" name="BitSelector"><a name="group" val="1"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1250,980)" name="Tunnel"><a name="label" val="CONTROL"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1270,990)" name="Constant"><a name="width" val="5"/><a name="value" val="0x9"/></comp>
+    <comp lib="0" loc="(1280,980)" name="Tunnel"><a name="label" val="CTRL_WPC"/></comp>
+    <comp lib="2" loc="(1340,980)" name="BitSelector"><a name="group" val="1"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1310,980)" name="Tunnel"><a name="label" val="CONTROL"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1330,990)" name="Constant"><a name="width" val="5"/><a name="value" val="0xa"/></comp>
+    <comp lib="0" loc="(1340,980)" name="Tunnel"><a name="label" val="CTRL_COND"/></comp>
+    <comp lib="2" loc="(1400,980)" name="BitSelector"><a name="group" val="1"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1370,980)" name="Tunnel"><a name="label" val="CONTROL"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1390,990)" name="Constant"><a name="width" val="5"/><a name="value" val="0xb"/></comp>
+    <comp lib="0" loc="(1400,980)" name="Tunnel"><a name="label" val="CTRL_ATOMIC"/></comp>
+    <comp lib="2" loc="(1460,980)" name="BitSelector"><a name="group" val="1"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1430,980)" name="Tunnel"><a name="label" val="CONTROL"/><a name="width" val="32"/></comp>
+    <comp lib="0" loc="(1450,990)" name="Constant"><a name="width" val="5"/><a name="value" val="0xc"/></comp>
+    <comp lib="0" loc="(1460,980)" name="Tunnel"><a name="label" val="CTRL_HALT"/></comp>
+    <comp lib="4" loc="(1720,920)" name="RAM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="asyncread" val="true"/><a name="byteenables" val="NobyteEnables"/><a name="dataWidth" val="16"/><a name="databus" val="bibus"/><a name="enables" val="byte"/><a name="label" val="SHARED_RAM"/><a name="trigger" val="rising"/></comp>
+    <comp lib="0" loc="(1720,930)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1720,1010)" name="Tunnel"><a name="label" val="MEM_WRITE_DATA"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1720,970)" name="Tunnel"><a name="label" val="MEM_WE"/></comp>
+    <comp lib="0" loc="(1720,980)" name="Tunnel"><a name="label" val="ONE"/></comp>
+    <comp lib="0" loc="(1720,990)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(1960,1010)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="3" loc="(1180,1080)" name="Comparator"><a name="mode" val="unsigned"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1140,1070)" name="Tunnel"><a name="label" val="STATE"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1140,1090)" name="Constant"><a name="width" val="2"/><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(1180,1080)" name="Tunnel"><a name="label" val="S0"/></comp>
+    <comp lib="3" loc="(1180,1140)" name="Comparator"><a name="mode" val="unsigned"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1140,1130)" name="Tunnel"><a name="label" val="STATE"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1140,1150)" name="Constant"><a name="width" val="2"/><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(1180,1140)" name="Tunnel"><a name="label" val="S1"/></comp>
+    <comp lib="3" loc="(1180,1200)" name="Comparator"><a name="mode" val="unsigned"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1140,1190)" name="Tunnel"><a name="label" val="STATE"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1140,1210)" name="Constant"><a name="width" val="2"/><a name="value" val="0x2"/></comp>
+    <comp lib="0" loc="(1180,1200)" name="Tunnel"><a name="label" val="S2"/></comp>
+    <comp lib="1" loc="(1280,1080)" name="NOT Gate"></comp>
+    <comp lib="0" loc="(1250,1080)" name="Tunnel"><a name="label" val="HALT"/></comp>
+    <comp lib="0" loc="(1280,1080)" name="Tunnel"><a name="label" val="RUN"/></comp>
+    <comp lib="1" loc="(1380,1080)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1330,1060)" name="Tunnel"><a name="label" val="RUN"/></comp>
+    <comp lib="0" loc="(1330,1100)" name="Tunnel"><a name="label" val="S0"/></comp>
+    <comp lib="0" loc="(1380,1080)" name="Tunnel"><a name="label" val="FETCH_OPCODE"/></comp>
+    <comp lib="1" loc="(1380,1140)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1330,1120)" name="Tunnel"><a name="label" val="RUN"/></comp>
+    <comp lib="0" loc="(1330,1160)" name="Tunnel"><a name="label" val="S1"/></comp>
+    <comp lib="0" loc="(1380,1140)" name="Tunnel"><a name="label" val="FETCH_OPERAND"/></comp>
+    <comp lib="1" loc="(1380,1200)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1330,1180)" name="Tunnel"><a name="label" val="RUN"/></comp>
+    <comp lib="0" loc="(1330,1220)" name="Tunnel"><a name="label" val="S2"/></comp>
+    <comp lib="0" loc="(1380,1200)" name="Tunnel"><a name="label" val="EXECUTE"/></comp>
+    <comp lib="2" loc="(1580,1140)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="2"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1540,1120)" name="Tunnel"><a name="label" val="CONST_STATE1"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1540,1130)" name="Tunnel"><a name="label" val="CONST_STATE2"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1540,1140)" name="Tunnel"><a name="label" val="CONST_STATE0"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1540,1150)" name="Tunnel"><a name="label" val="CONST_STATE0"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1560,1160)" name="Tunnel"><a name="label" val="STATE"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1580,1140)" name="Tunnel"><a name="label" val="STATE_NEXT"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(1540,1120)" name="Constant"><a name="width" val="2"/><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(1540,1130)" name="Constant"><a name="width" val="2"/><a name="value" val="0x2"/></comp>
+    <comp lib="0" loc="(1540,1140)" name="Constant"><a name="width" val="2"/><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(1540,1150)" name="Constant"><a name="width" val="2"/><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(1640,1200)" name="Tunnel"><a name="label" val="RUN"/></comp>
+    <comp lib="0" loc="(1640,1200)" name="Tunnel"><a name="label" val="STATE_WE"/></comp>
+    <comp lib="0" loc="(1640,1220)" name="Tunnel"><a name="label" val="FETCH_OPCODE"/></comp>
+    <comp lib="0" loc="(1640,1220)" name="Tunnel"><a name="label" val="IR_WE"/></comp>
+    <comp lib="0" loc="(1640,1240)" name="Tunnel"><a name="label" val="FETCH_OPERAND"/></comp>
+    <comp lib="0" loc="(1640,1240)" name="Tunnel"><a name="label" val="OPERAND_WE"/></comp>
+    <comp lib="3" loc="(1180,1300)" name="Adder"><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1140,1290)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1140,1310)" name="Constant"><a name="width" val="8"/><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(1160,1280)" name="Constant"><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(1180,1300)" name="Tunnel"><a name="label" val="PC_PLUS1"/><a name="width" val="8"/></comp>
+    <comp lib="1" loc="(1280,1300)" name="NOT Gate"></comp>
+    <comp lib="0" loc="(1250,1300)" name="Tunnel"><a name="label" val="CTRL_COND"/></comp>
+    <comp lib="0" loc="(1280,1300)" name="Tunnel"><a name="label" val="UNCONDITIONAL"/></comp>
+    <comp lib="1" loc="(1380,1300)" name="OR Gate"></comp>
+    <comp lib="0" loc="(1330,1280)" name="Tunnel"><a name="label" val="UNCONDITIONAL"/></comp>
+    <comp lib="0" loc="(1330,1320)" name="Tunnel"><a name="label" val="ZERO"/></comp>
+    <comp lib="0" loc="(1380,1300)" name="Tunnel"><a name="label" val="BRANCH_OK"/></comp>
+    <comp lib="1" loc="(1480,1280)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1430,1260)" name="Tunnel"><a name="label" val="EXECUTE"/></comp>
+    <comp lib="0" loc="(1430,1300)" name="Tunnel"><a name="label" val="CTRL_WPC"/></comp>
+    <comp lib="0" loc="(1480,1280)" name="Tunnel"><a name="label" val="BRANCH_REQ"/></comp>
+    <comp lib="1" loc="(1580,1300)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1530,1280)" name="Tunnel"><a name="label" val="BRANCH_REQ"/></comp>
+    <comp lib="0" loc="(1530,1320)" name="Tunnel"><a name="label" val="BRANCH_OK"/></comp>
+    <comp lib="0" loc="(1580,1300)" name="Tunnel"><a name="label" val="BRANCH_TAKEN"/></comp>
+    <comp lib="2" loc="(1700,1320)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1670,1310)" name="Tunnel"><a name="label" val="PC_PLUS1"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1670,1330)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1680,1340)" name="Tunnel"><a name="label" val="BRANCH_TAKEN"/></comp>
+    <comp lib="0" loc="(1700,1320)" name="Tunnel"><a name="label" val="PC_NEXT"/><a name="width" val="8"/></comp>
+    <comp lib="1" loc="(1480,1360)" name="OR Gate"></comp>
+    <comp lib="0" loc="(1430,1340)" name="Tunnel"><a name="label" val="FETCH_OPCODE"/></comp>
+    <comp lib="0" loc="(1430,1380)" name="Tunnel"><a name="label" val="FETCH_OPERAND"/></comp>
+    <comp lib="0" loc="(1480,1360)" name="Tunnel"><a name="label" val="FETCH_ANY"/></comp>
+    <comp lib="1" loc="(1580,1360)" name="OR Gate"></comp>
+    <comp lib="0" loc="(1530,1340)" name="Tunnel"><a name="label" val="FETCH_ANY"/></comp>
+    <comp lib="0" loc="(1530,1380)" name="Tunnel"><a name="label" val="BRANCH_TAKEN"/></comp>
+    <comp lib="0" loc="(1580,1360)" name="Tunnel"><a name="label" val="PC_WE"/></comp>
+    <comp lib="0" loc="(430,1180)" name="Bit Extender"><a name="in_width" val="8"/><a name="out_width" val="16"/><a name="type" val="zero"/></comp>
+    <comp lib="0" loc="(390,1180)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(430,1180)" name="Tunnel"><a name="label" val="IMM16"/><a name="width" val="16"/></comp>
+    <comp lib="3" loc="(430,1240)" name="Adder"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1230)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1250)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(410,1220)" name="Constant"><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(430,1240)" name="Tunnel"><a name="label" val="ADD_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="3" loc="(430,1300)" name="Subtractor"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1290)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1310)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(410,1280)" name="Constant"><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(430,1300)" name="Tunnel"><a name="label" val="SUB_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="1" loc="(440,1360)" name="AND Gate"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1340)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1380)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(440,1360)" name="Tunnel"><a name="label" val="AND_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="1" loc="(440,1420)" name="OR Gate"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1400)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(390,1440)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(440,1420)" name="Tunnel"><a name="label" val="OR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="1" loc="(440,1480)" name="XOR Gate"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(380,1460)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(380,1500)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(440,1480)" name="Tunnel"><a name="label" val="XOR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="1" loc="(440,1540)" name="NOT Gate"><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(410,1540)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(440,1540)" name="Tunnel"><a name="label" val="NOT_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="3" loc="(440,1600)" name="Shifter"><a name="shift" val="ll"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(400,1590)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(400,1610)" name="Constant"><a name="width" val="4"/><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(440,1600)" name="Tunnel"><a name="label" val="SHL_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="3" loc="(440,1660)" name="Shifter"><a name="shift" val="lr"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(400,1650)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(400,1670)" name="Constant"><a name="width" val="4"/><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(440,1660)" name="Tunnel"><a name="label" val="SHR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="2" loc="(700,1420)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="4"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1340)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1350)" name="Tunnel"><a name="label" val="ADD_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1360)" name="Tunnel"><a name="label" val="SUB_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1370)" name="Tunnel"><a name="label" val="AND_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1380)" name="Tunnel"><a name="label" val="OR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1390)" name="Tunnel"><a name="label" val="XOR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1400)" name="Tunnel"><a name="label" val="NOT_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1410)" name="Tunnel"><a name="label" val="SHL_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1420)" name="Tunnel"><a name="label" val="SHR_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1430)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1440)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1450)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1460)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1470)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1480)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(660,1490)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(680,1500)" name="Tunnel"><a name="label" val="CTRL_ALU_OP"/><a name="width" val="4"/></comp>
+    <comp lib="0" loc="(700,1420)" name="Tunnel"><a name="label" val="ALU_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="2" loc="(900,1420)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="3"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(860,1380)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(860,1390)" name="Tunnel"><a name="label" val="IMM16"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(860,1400)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(860,1410)" name="Tunnel"><a name="label" val="ALU_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(860,1420)" name="Tunnel"><a name="label" val="MEM"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(860,1430)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(860,1440)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(860,1450)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(880,1460)" name="Tunnel"><a name="label" val="CTRL_ACC_SOURCE"/><a name="width" val="3"/></comp>
+    <comp lib="0" loc="(900,1420)" name="Tunnel"><a name="label" val="ACC_NEXT"/><a name="width" val="16"/></comp>
+    <comp lib="1" loc="(920,1740)" name="AND Gate"></comp>
+    <comp lib="0" loc="(870,1720)" name="Tunnel"><a name="label" val="EXECUTE"/></comp>
+    <comp lib="0" loc="(870,1760)" name="Tunnel"><a name="label" val="CTRL_WACC"/></comp>
+    <comp lib="0" loc="(920,1740)" name="Tunnel"><a name="label" val="ACC_WE"/></comp>
+    <comp lib="0" loc="(1020,1740)" name="Tunnel"><a name="label" val="ACC_WE"/></comp>
+    <comp lib="0" loc="(1020,1740)" name="Tunnel"><a name="label" val="ZERO_WE"/></comp>
+    <comp lib="3" loc="(920,1800)" name="Comparator"><a name="mode" val="unsigned"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(880,1790)" name="Tunnel"><a name="label" val="ACC_NEXT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(880,1810)" name="Constant"><a name="width" val="16"/><a name="value" val="0x0"/></comp>
+    <comp lib="0" loc="(920,1800)" name="Tunnel"><a name="label" val="ZERO_NEXT"/></comp>
+    <comp lib="2" loc="(1180,1840)" name="Multiplexer"><a name="enable" val="false"/><a name="select" val="1"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1150,1830)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1150,1850)" name="Tunnel"><a name="label" val="ADD_RESULT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1160,1860)" name="Tunnel"><a name="label" val="CTRL_ATOMIC"/></comp>
+    <comp lib="0" loc="(1180,1840)" name="Tunnel"><a name="label" val="MEM_WRITE_DATA"/><a name="width" val="16"/></comp>
+    <comp lib="1" loc="(1300,1840)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1250,1820)" name="Tunnel"><a name="label" val="EXECUTE"/></comp>
+    <comp lib="0" loc="(1250,1860)" name="Tunnel"><a name="label" val="CTRL_WMEM"/></comp>
+    <comp lib="0" loc="(1300,1840)" name="Tunnel"><a name="label" val="MEM_WE"/></comp>
+    <comp lib="1" loc="(1420,1840)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1370,1820)" name="Tunnel"><a name="label" val="EXECUTE"/></comp>
+    <comp lib="0" loc="(1370,1860)" name="Tunnel"><a name="label" val="CTRL_HALT"/></comp>
+    <comp lib="0" loc="(1420,1840)" name="Tunnel"><a name="label" val="HALT_WE"/></comp>
+    <comp lib="0" loc="(1520,1840)" name="Constant"><a name="value" val="0x1"/></comp>
+    <comp lib="0" loc="(1520,1840)" name="Tunnel"><a name="label" val="ONE"/></comp>
+    <comp lib="3" loc="(1760,1940)" name="Comparator"><a name="mode" val="unsigned"/></comp>
+    <comp lib="0" loc="(1720,1930)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1720,1950)" name="Constant"><a name="width" val="8"/><a name="value" val="0xf0"/></comp>
+    <comp lib="0" loc="(1760,1940)" name="Tunnel"><a name="label" val="ADDR_OUT0"/></comp>
+    <comp lib="1" loc="(1860,1940)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1810,1920)" name="Tunnel"><a name="label" val="MEM_WE"/></comp>
+    <comp lib="0" loc="(1810,1960)" name="Tunnel"><a name="label" val="ADDR_OUT0"/></comp>
+    <comp lib="0" loc="(1860,1940)" name="Tunnel"><a name="label" val="WE_OUT0"/></comp>
+    <comp lib="4" loc="(2020,1940)" name="Register"><a name="appearance" val="classic"/><a name="label" val="ROUT0"/><a name="trigger" val="rising"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2020,1940)" name="Tunnel"><a name="label" val="OUT0"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1990,1940)" name="Tunnel"><a name="label" val="MEM_WRITE_DATA"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1990,1950)" name="Tunnel"><a name="label" val="WE_OUT0"/></comp>
+    <comp lib="0" loc="(2000,1960)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(2010,1960)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="3" loc="(1760,2020)" name="Comparator"><a name="mode" val="unsigned"/></comp>
+    <comp lib="0" loc="(1720,2010)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1720,2030)" name="Constant"><a name="width" val="8"/><a name="value" val="0xf1"/></comp>
+    <comp lib="0" loc="(1760,2020)" name="Tunnel"><a name="label" val="ADDR_OUT1"/></comp>
+    <comp lib="1" loc="(1860,2020)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1810,2000)" name="Tunnel"><a name="label" val="MEM_WE"/></comp>
+    <comp lib="0" loc="(1810,2040)" name="Tunnel"><a name="label" val="ADDR_OUT1"/></comp>
+    <comp lib="0" loc="(1860,2020)" name="Tunnel"><a name="label" val="WE_OUT1"/></comp>
+    <comp lib="4" loc="(2020,2020)" name="Register"><a name="appearance" val="classic"/><a name="label" val="ROUT1"/><a name="trigger" val="rising"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2020,2020)" name="Tunnel"><a name="label" val="OUT1"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1990,2020)" name="Tunnel"><a name="label" val="MEM_WRITE_DATA"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1990,2030)" name="Tunnel"><a name="label" val="WE_OUT1"/></comp>
+    <comp lib="0" loc="(2000,2040)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(2010,2040)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="3" loc="(1760,2100)" name="Comparator"><a name="mode" val="unsigned"/></comp>
+    <comp lib="0" loc="(1720,2090)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1720,2110)" name="Constant"><a name="width" val="8"/><a name="value" val="0xf2"/></comp>
+    <comp lib="0" loc="(1760,2100)" name="Tunnel"><a name="label" val="ADDR_OUT2"/></comp>
+    <comp lib="1" loc="(1860,2100)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1810,2080)" name="Tunnel"><a name="label" val="MEM_WE"/></comp>
+    <comp lib="0" loc="(1810,2120)" name="Tunnel"><a name="label" val="ADDR_OUT2"/></comp>
+    <comp lib="0" loc="(1860,2100)" name="Tunnel"><a name="label" val="WE_OUT2"/></comp>
+    <comp lib="4" loc="(2020,2100)" name="Register"><a name="appearance" val="classic"/><a name="label" val="ROUT2"/><a name="trigger" val="rising"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2020,2100)" name="Tunnel"><a name="label" val="OUT2"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1990,2100)" name="Tunnel"><a name="label" val="MEM_WRITE_DATA"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1990,2110)" name="Tunnel"><a name="label" val="WE_OUT2"/></comp>
+    <comp lib="0" loc="(2000,2120)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(2010,2120)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="3" loc="(1760,2180)" name="Comparator"><a name="mode" val="unsigned"/></comp>
+    <comp lib="0" loc="(1720,2170)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1720,2190)" name="Constant"><a name="width" val="8"/><a name="value" val="0xf3"/></comp>
+    <comp lib="0" loc="(1760,2180)" name="Tunnel"><a name="label" val="ADDR_OUT3"/></comp>
+    <comp lib="1" loc="(1860,2180)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1810,2160)" name="Tunnel"><a name="label" val="MEM_WE"/></comp>
+    <comp lib="0" loc="(1810,2200)" name="Tunnel"><a name="label" val="ADDR_OUT3"/></comp>
+    <comp lib="0" loc="(1860,2180)" name="Tunnel"><a name="label" val="WE_OUT3"/></comp>
+    <comp lib="4" loc="(2020,2180)" name="Register"><a name="appearance" val="classic"/><a name="label" val="ROUT3"/><a name="trigger" val="rising"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2020,2180)" name="Tunnel"><a name="label" val="OUT3"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1990,2180)" name="Tunnel"><a name="label" val="MEM_WRITE_DATA"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1990,2190)" name="Tunnel"><a name="label" val="WE_OUT3"/></comp>
+    <comp lib="0" loc="(2000,2200)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(2010,2200)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="3" loc="(1760,2260)" name="Comparator"><a name="mode" val="unsigned"/></comp>
+    <comp lib="0" loc="(1720,2250)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(1720,2270)" name="Constant"><a name="width" val="8"/><a name="value" val="0x30"/></comp>
+    <comp lib="0" loc="(1760,2260)" name="Tunnel"><a name="label" val="ADDR_ATOMIC_COUNT"/></comp>
+    <comp lib="1" loc="(1860,2260)" name="AND Gate"></comp>
+    <comp lib="0" loc="(1810,2240)" name="Tunnel"><a name="label" val="MEM_WE"/></comp>
+    <comp lib="0" loc="(1810,2280)" name="Tunnel"><a name="label" val="ADDR_ATOMIC_COUNT"/></comp>
+    <comp lib="0" loc="(1860,2260)" name="Tunnel"><a name="label" val="WE_ATOMIC_COUNT"/></comp>
+    <comp lib="4" loc="(2020,2260)" name="Register"><a name="appearance" val="classic"/><a name="label" val="RATOMIC_COUNT"/><a name="trigger" val="rising"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2020,2260)" name="Tunnel"><a name="label" val="ATOMIC_COUNT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1990,2260)" name="Tunnel"><a name="label" val="MEM_WRITE_DATA"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(1990,2270)" name="Tunnel"><a name="label" val="WE_ATOMIC_COUNT"/></comp>
+    <comp lib="0" loc="(2000,2280)" name="Tunnel"><a name="label" val="Clock"/></comp>
+    <comp lib="0" loc="(2010,2280)" name="Tunnel"><a name="label" val="Reset"/></comp>
+    <comp lib="0" loc="(2460,120)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="OUT0"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,120)" name="Tunnel"><a name="label" val="OUT0"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,170)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="OUT1"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,170)" name="Tunnel"><a name="label" val="OUT1"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,220)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="OUT2"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,220)" name="Tunnel"><a name="label" val="OUT2"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,270)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="OUT3"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,270)" name="Tunnel"><a name="label" val="OUT3"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,320)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="ATOMIC_COUNT"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,320)" name="Tunnel"><a name="label" val="ATOMIC_COUNT"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,370)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="TID"/><a name="type" val="output"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(2460,370)" name="Tunnel"><a name="label" val="TID"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(2460,420)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="PC"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,420)" name="Tunnel"><a name="label" val="PC"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,470)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="ACC"/><a name="type" val="output"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,470)" name="Tunnel"><a name="label" val="ACC"/><a name="width" val="16"/></comp>
+    <comp lib="0" loc="(2460,520)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="IR"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,520)" name="Tunnel"><a name="label" val="IR"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,570)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="OPERAND"/><a name="type" val="output"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,570)" name="Tunnel"><a name="label" val="OPERAND"/><a name="width" val="8"/></comp>
+    <comp lib="0" loc="(2460,620)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="STATE"/><a name="type" val="output"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(2460,620)" name="Tunnel"><a name="label" val="STATE"/><a name="width" val="2"/></comp>
+    <comp lib="0" loc="(2460,670)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="CurrentHalt"/><a name="type" val="output"/></comp>
+    <comp lib="0" loc="(2460,670)" name="Tunnel"><a name="label" val="HALT"/></comp>
+    <comp lib="1" loc="(2320,760)" name="AND Gate"><a name="inputs" val="4"/></comp>
+    <comp lib="0" loc="(2270,740)" name="Tunnel"><a name="label" val="HALT0"/></comp>
+    <comp lib="0" loc="(2270,750)" name="Tunnel"><a name="label" val="HALT1"/></comp>
+    <comp lib="0" loc="(2270,770)" name="Tunnel"><a name="label" val="HALT2"/></comp>
+    <comp lib="0" loc="(2270,780)" name="Tunnel"><a name="label" val="HALT3"/></comp>
+    <comp lib="0" loc="(2320,760)" name="Tunnel"><a name="label" val="ALL_HALTED"/></comp>
+    <comp lib="0" loc="(2460,760)" name="Pin"><a name="appearance" val="NewPins"/><a name="facing" val="west"/><a name="label" val="AllHalted"/><a name="type" val="output"/></comp>
+    <comp lib="0" loc="(2460,760)" name="Tunnel"><a name="label" val="ALL_HALTED"/></comp>
+  </circuit>
+</project>

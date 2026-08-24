@@ -1,0 +1,8 @@
+[project]
+name = "mt16-logisim"
+version = "1.0.0"
+description = "Assembler and reference model for the MT16 Logisim barrel processor"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

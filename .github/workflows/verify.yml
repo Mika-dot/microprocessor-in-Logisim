@@ -1,0 +1,33 @@
+name: Verify MT16
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Download Logisim Evolution 4.1.0
+        run: >-
+          curl --fail --location --retry 3
+          --output "$RUNNER_TEMP/logisim-evolution.jar"
+          https://github.com/logisim-evolution/logisim-evolution/releases/download/v4.1.0/logisim-evolution-4.1.0-all.jar
+      - name: Regenerate and test software + hardware
+        env:
+          LOGISIM_JAR: ${{ runner.temp }}/logisim-evolution.jar
+        run: scripts/test-all.sh
+      - name: Check generated files are committed
+        run: git diff --exit-code
