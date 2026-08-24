@@ -1,12 +1,21 @@
 # microprocessor-in-Logisim
-A school project that has been lying on the floor for a long time
 
-Used program [Logisim](http://www.cburch.com/logisim/ru/index.html)
+Учебный проект 8-битной ЭВМ в Logisim.
 
-You can download from this [link](https://sourceforge.net/projects/circuit/)
+## Версия на реальных микросхемах 74xx
 
-If necessary, then in the folder there is an implementation of the logic "log7400" from another user, but over the years I could not find it.
+Готовая собираемая архитектура находится в [ЭВМ-7400.circ](ЭВМ-7400.circ). Логика, регистры, счётчики, АЛУ, флаги и шинные драйверы реализованы корпусами серии `74HC`; программная и управляющая память оформлены как реальные EEPROM/SRAM.
 
-General form
+- [Инструкция запуска и устройство](hardware7400/README.md)
+- [Набор команд и микрошаги](hardware7400/ISA.md)
+- [Ведомость микросхем](hardware7400/BOM.md)
 
-![ЭВМ](https://github.com/Mika-dot/microprocessor-in-Logisim/blob/main/IMG.png)
+В схему уже записана демонстрационная программа. Нажмите `RESET`, затем включите `Simulate → Ticks Enabled` — ЭВМ выполнит программу и остановится на `HLT`.
+
+## Исходная схема
+
+Оригинальный школьный проект сохранён без изменений в [ЭВМ.circ](ЭВМ.circ).
+
+![Исходная ЭВМ](IMG.png)
+
+Используется [Logisim](http://www.cburch.com/logisim/ru/index.html). Исходная библиотека микросхем лежит в каталоге [`logi7400`](logi7400).
