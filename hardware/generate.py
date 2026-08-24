@@ -469,6 +469,8 @@ def computer_circuit(programs: list[list[int]]) -> Circuit:
     c.subcircuit("MT16_Core", 1000, 600)
     c.wire(270, 150, 600, 150); c.wire(600, 150, 600, 320); c.wire(600, 320, 640, 320)
     c.wire(270, 250, 620, 250); c.wire(620, 250, 620, 350); c.wire(620, 350, 640, 350)
+    c.wire(620, 250, 1650, 250); c.wire(1650, 250, 1650, 630)
+    c.wire(1650, 630, 1360, 630); c.wire(1360, 630, 1360, 650)
 
     # Four private program ROMs. Address and instruction bytes travel on visible
     # buses to make the round-robin execution easy to follow on screen.
@@ -497,7 +499,7 @@ def computer_circuit(programs: list[list[int]]) -> Circuit:
     c.text("ОБЩАЯ ПАМЯТЬ ДАННЫХ 256 × 16", 1210, 615, 15, True)
     c.comp(4, "RAM", 1240, 650, addrWidth=8, appearance="classic", asyncread="true",
            byteenables="NobyteEnables", dataWidth=16, databus="bibus", enables="byte",
-           label="SHARED RAM", trigger="rising")
+           label="SHARED RAM", trigger="rising", clearpin="true")
     c.wire(1000, 660, 1240, 660)
     c.wire(1000, 700, 1240, 700)
     c.wire(1000, 740, 1240, 740)

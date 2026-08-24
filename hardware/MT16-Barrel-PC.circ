@@ -917,6 +917,10 @@
     <wire from="(270,250)" to="(620,250)"/>
     <wire from="(620,250)" to="(620,350)"/>
     <wire from="(620,350)" to="(640,350)"/>
+    <wire from="(620,250)" to="(1650,250)"/>
+    <wire from="(1650,250)" to="(1650,630)"/>
+    <wire from="(1650,630)" to="(1360,630)"/>
+    <wire from="(1360,630)" to="(1360,650)"/>
     <comp lib="8" loc="(290,320)" name="Text"><a name="text" val="ПРОГРАММЫ ПОТОКОВ · 4 × ROM 256 × 8"/><a name="font" val="SansSerif bold 14"/><a name="halign" val="left"/></comp>
     <comp lib="4" loc="(300,380)" name="ROM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="dataWidth" val="8"/><a name="label" val="THREAD 0 PROGRAM"/><a name="contents">addr/data: 8 8
 01 01 03 01 01 0b 03 0b 01 00 03 10 01 01 03 11
@@ -1015,7 +1019,7 @@
     <comp lib="8" loc="(270,782)" name="Text"><a name="text" val="T3"/><a name="font" val="SansSerif bold 16"/><a name="halign" val="left"/></comp>
     <comp lib="8" loc="(310,728)" name="Text"><a name="text" val="40 + 2 → OUT3"/><a name="font" val="SansSerif bold 11"/><a name="halign" val="left"/></comp>
     <comp lib="8" loc="(1210,615)" name="Text"><a name="text" val="ОБЩАЯ ПАМЯТЬ ДАННЫХ 256 × 16"/><a name="font" val="SansSerif bold 15"/><a name="halign" val="left"/></comp>
-    <comp lib="4" loc="(1240,650)" name="RAM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="asyncread" val="true"/><a name="byteenables" val="NobyteEnables"/><a name="dataWidth" val="16"/><a name="databus" val="bibus"/><a name="enables" val="byte"/><a name="label" val="SHARED RAM"/><a name="trigger" val="rising"/></comp>
+    <comp lib="4" loc="(1240,650)" name="RAM"><a name="addrWidth" val="8"/><a name="appearance" val="classic"/><a name="asyncread" val="true"/><a name="byteenables" val="NobyteEnables"/><a name="dataWidth" val="16"/><a name="databus" val="bibus"/><a name="enables" val="byte"/><a name="label" val="SHARED RAM"/><a name="trigger" val="rising"/><a name="clearpin" val="true"/></comp>
     <wire from="(1000,660)" to="(1240,660)"/>
     <wire from="(1000,700)" to="(1240,700)"/>
     <wire from="(1000,740)" to="(1240,740)"/>
