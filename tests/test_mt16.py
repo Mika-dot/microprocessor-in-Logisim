@@ -1,5 +1,6 @@
 from pathlib import Path
 import unittest
+import xml.etree.ElementTree as ET
 
 from mt16.core import MICROCODE, Machine, Opcode, assemble
 
@@ -19,6 +20,18 @@ class AssemblerTests(unittest.TestCase):
     def test_rejects_bad_program(self) -> None:
         with self.assertRaisesRegex(ValueError, "unknown instruction"):
             assemble("WAT 1")
+
+
+class HardwareStructureTests(unittest.TestCase):
+    def test_main_circuit_is_flat_and_uses_only_library_components(self) -> None:
+        root = ET.parse(ROOT / "hardware" / "MT16-Barrel-PC.circ").getroot()
+        circuits = {c.attrib["name"]: c for c in root.findall("circuit")}
+        self.assertNotIn("MT16_Core", circuits)
+        main = circuits["MT16_Computer"]
+        hidden = [comp.attrib.get("name", "?") for comp in main.findall("comp")
+                  if "lib" not in comp.attrib]
+        self.assertEqual(hidden, [], f"nested subcircuits found: {hidden}")
+        self.assertGreaterEqual(len(main.findall("wire")), 450)
 
 
 class MachineTests(unittest.TestCase):

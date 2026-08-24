@@ -39,6 +39,12 @@ class Circuit:
     def wire(self, x1: int, y1: int, x2: int, y2: int) -> None:
         self.items.append(f'<wire from="({x1},{y1})" to="({x2},{y2})"/>')
 
+    def bus(self, label: str, width: int, x1: int, y: int, x2: int) -> None:
+        """Draw a real named backplane wire, not a decorative line."""
+        self.tunnel(label, width, x1, y)
+        self.wire(x1, y, x2, y)
+        self.tunnel(label, width, x2, y)
+
     def tunnel(self, label: str, width: int, x: int, y: int) -> None:
         self.comp(0, "Tunnel", x, y, label=label, width=width if width != 1 else None)
 
@@ -58,22 +64,14 @@ class Circuit:
         self.comp(8, "Text", x, y, text=value, font=f"SansSerif {weight} {size}",
                   halign=align)
 
-    def subcircuit(self, name: str, x: int, y: int, **attrs: object) -> None:
-        body = "".join(
-            f'<a name="{escape(str(key))}" val="{escape(str(value))}"/>'
-            for key, value in attrs.items()
-            if value is not None
-        )
-        self.items.append(f'<comp loc="({x},{y})" name="{escape(name)}">{body}</comp>')
-
     def register(self, label: str, width: int, x: int, y: int, data: str, enable: str) -> None:
         self.comp(4, "Register", x, y, appearance="classic", label=f"R{label}",
                   trigger="rising", width=width if width != 8 else None)
-        self.tunnel(label, width, x, y)
-        self.tunnel(data, width, x - 30, y)
-        self.tunnel(enable, 1, x - 30, y + 10)
-        self.tunnel("Clock", 1, x - 20, y + 20)
-        self.tunnel("Reset", 1, x - 10, y + 20)
+        self.wire(x, y, x + 10, y); self.tunnel(label, width, x + 10, y)
+        self.tunnel(data, width, x - 40, y); self.wire(x - 40, y, x - 30, y)
+        self.tunnel(enable, 1, x - 40, y + 10); self.wire(x - 40, y + 10, x - 30, y + 10)
+        self.tunnel("Clock", 1, x - 20, y + 30); self.wire(x - 20, y + 20, x - 20, y + 30)
+        self.tunnel("Reset", 1, x - 10, y + 30); self.wire(x - 10, y + 20, x - 10, y + 30)
 
     def mux(self, label: str, inputs: list[str], select: str, width: int, x: int, y: int) -> None:
         bits = (len(inputs) - 1).bit_length()
@@ -81,43 +79,46 @@ class Circuit:
                   width=width if width != 1 else None)
         if len(inputs) == 2:
             for index, source in enumerate(inputs):
-                self.tunnel(source, width, x - 30, y - 10 + index * 20)
-            self.tunnel(select, bits, x - 20, y + 20)
+                py = y - 10 + index * 20
+                self.tunnel(source, width, x - 40, py); self.wire(x - 40, py, x - 30, py)
+            self.tunnel(select, bits, x - 20, y + 30); self.wire(x - 20, y + 20, x - 20, y + 30)
         else:
             offset = -(len(inputs) // 2) * 10
             for index, source in enumerate(inputs):
-                self.tunnel(source, width, x - 40, y + offset + index * 10)
-            self.tunnel(select, bits, x - 20, y + (len(inputs) // 2) * 10)
-        self.tunnel(label, width, x, y)
+                py = y + offset + index * 10
+                self.tunnel(source, width, x - 50, py); self.wire(x - 50, py, x - 40, py)
+            sy = y + (len(inputs) // 2) * 10
+            self.tunnel(select, bits, x - 20, sy + 10); self.wire(x - 20, sy, x - 20, sy + 10)
+        self.wire(x, y, x + 10, y); self.tunnel(label, width, x + 10, y)
 
     def gate2(self, kind: str, output: str, left: str, right: str, x: int, y: int, width: int = 1) -> None:
         self.comp(1, f"{kind} Gate", x, y, width=width if width != 1 else None)
         # Default 50-unit gates place two inputs at y +/- 20. XOR has a 10-unit
         # extra lead-in compared with AND/OR.
         input_x = x - (60 if kind == "XOR" else 50)
-        self.tunnel(left, width, input_x, y - 20)
-        self.tunnel(right, width, input_x, y + 20)
-        self.tunnel(output, width, x, y)
+        self.tunnel(left, width, input_x - 10, y - 20); self.wire(input_x - 10, y - 20, input_x, y - 20)
+        self.tunnel(right, width, input_x - 10, y + 20); self.wire(input_x - 10, y + 20, input_x, y + 20)
+        self.wire(x, y, x + 10, y); self.tunnel(output, width, x + 10, y)
 
     def not_gate(self, output: str, source: str, x: int, y: int, width: int = 1) -> None:
         self.comp(1, "NOT Gate", x, y, width=width if width != 1 else None)
-        self.tunnel(source, width, x - 30, y)
-        self.tunnel(output, width, x, y)
+        self.tunnel(source, width, x - 40, y); self.wire(x - 40, y, x - 30, y)
+        self.wire(x, y, x + 10, y); self.tunnel(output, width, x + 10, y)
 
     def comparator_eq(self, output: str, source: str, value: int, width: int, x: int, y: int) -> None:
         self.comp(3, "Comparator", x, y, mode="unsigned", width=width if width != 8 else None)
-        self.tunnel(source, width, x - 40, y - 10)
+        self.tunnel(source, width, x - 50, y - 10); self.wire(x - 50, y - 10, x - 40, y - 10)
         self.constant(value, width, x - 40, y + 10)
-        self.tunnel(output, 1, x, y)
+        self.wire(x, y, x + 10, y); self.tunnel(output, 1, x + 10, y)
 
     def bit_selector(self, output: str, source: str, source_width: int, bit: int, x: int, y: int,
                      group: int = 1) -> None:
         self.comp(2, "BitSelector", x, y, group=group, width=source_width)
-        self.tunnel(source, source_width, x - 30, y)
+        self.tunnel(source, source_width, x - 40, y); self.wire(x - 40, y, x - 30, y)
         groups = (source_width + group - 1) // group
         select_width = max(1, (groups - 1).bit_length())
         self.constant(bit // group, select_width, x - 10, y + 10)
-        self.tunnel(output, group, x, y)
+        self.wire(x, y, x + 10, y); self.tunnel(output, group, x + 10, y)
 
     def serialize(self) -> str:
         body = "\n    ".join(self.items)
@@ -229,88 +230,38 @@ def scheduler_circuit() -> Circuit:
     return c
 
 
-def core_appearance() -> list[str]:
-    """Compact, labelled symbol used by the readable top-level schematic."""
-    objects = [
-        '<rect fill="#f6f9ff" height="600" rx="18" stroke="#153b66" '
-        'stroke-width="4" width="360" x="-360" y="-300"/>',
-        '<rect fill="#153b66" height="54" rx="14" stroke="#153b66" '
-        'width="360" x="-360" y="-300"/>',
-        '<text fill="#ffffff" font-family="SansSerif" font-size="20" '
-        'font-weight="bold" text-anchor="middle" x="-180" y="-266">MT16 BARREL CORE</text>',
-        '<text fill="#45627f" font-family="SansSerif" font-size="11" '
-        'text-anchor="middle" x="-180" y="-246">4 CONTEXTS · 16 BIT · MICROCODED</text>',
-    ]
+def computer_circuit(programs: list[list[int]], control: list[int]) -> Circuit:
+    """One completely flat computer made only from Logisim library parts."""
+    c = Circuit("MT16_Computer")
+    c.text("MT16 · 4-ПОТОЧНЫЙ МИКРОПРОГРАММНЫЙ КОМПЬЮТЕР", 60, 35, 25, True)
+    c.text("Плоская схема: все регистры, ROM, RAM, АЛУ и управление находятся на этом листе", 60, 62, 14)
+    c.text("Нажмите ▶ Ticks Enabled — встроенная программа запускается сразу", 60, 84, 14)
 
-    def label(text: str, x: int, y: int, anchor: str = "start", color: str = "#153b66") -> None:
-        objects.append(
-            f'<text fill="{color}" font-family="SansSerif" font-size="11" '
-            f'font-weight="bold" text-anchor="{anchor}" x="{x}" y="{y}">{text}</text>'
-        )
+    # One-click clock plus deterministic pins used by the headless test bench.
+    c.text("УПРАВЛЕНИЕ", 60, 118, 14, True)
+    c.comp(0, "Clock", 100, 150)
+    c.input_pin("Clock", 1, 100, 190)
+    c.comp(1, "OR Gate", 220, 170)
+    c.wire(100, 150, 170, 150); c.wire(100, 190, 170, 190)
+    c.wire(220, 170, 270, 170); c.tunnel("Clock", 1, 270, 170)
+    c.text("автотакт", 120, 154, 11)
+    c.comp(5, "Button", 100, 250)
+    c.input_pin("Reset", 1, 100, 290)
+    c.comp(1, "OR Gate", 220, 270)
+    c.wire(100, 250, 170, 250); c.wire(100, 290, 170, 290)
+    c.wire(220, 270, 270, 270); c.tunnel("Reset", 1, 270, 270)
+    c.text("сброс", 120, 254, 11)
+    c.text("ПЛАНИРОВЩИК ПОТОКОВ", 300, 125, 14, True)
 
-    def port(x: int, y: int, direction: str, pin: tuple[int, int]) -> None:
-        objects.append(
-            f'<circ-port dir="{direction}" pin="{pin[0]},{pin[1]}" x="{x}" y="{y}"/>'
-        )
-
-    # Control at the top-left.
-    port(-360, -280, "in", (100, 100)); label("CLOCK", -350, -276)
-    port(-360, -250, "in", (100, 140)); label("RESET", -350, -246)
-
-    # Four physical thread lanes: PC leaves the core, fetched byte returns.
-    lane_y = (-200, -80, 40, 160)
-    lane_colors = ("#1565c0", "#6a1b9a", "#00897b", "#ef6c00")
-    for tid, (y, color) in enumerate(zip(lane_y, lane_colors)):
-        objects.append(
-            f'<rect fill="#ffffff" height="88" rx="10" stroke="{color}" '
-            f'stroke-width="2" width="214" x="-343" y="{y - 30}"/>'
-        )
-        label(f"THREAD {tid}", -328, y - 10, color=color)
-        port(-360, y, "out", (2460, 820 + tid * 50)); label("PC", -350, y + 4)
-        port(-360, y + 40, "in", (100, 180 + tid * 40)); label("ROM DATA", -350, y + 44)
-        label("PC · ACC · IR · flags", -328, y + 65, color="#607d8b")
-
-    # Human-readable result panel on the right.
-    result_ports = (
-        ("OUT0", -240, (2460, 120)), ("OUT1", -200, (2460, 170)),
-        ("OUT2", -160, (2460, 220)), ("OUT3", -120, (2460, 270)),
-        ("ATOMIC", -80, (2460, 320)), ("ALL HALTED", -40, (2460, 760)),
+    # Visible master backplane. Every rail is electrically part of the named
+    # signal; the nearby functional blocks tap the same nets through connectors.
+    c.text("МАГИСТРАЛИ ДАННЫХ И УПРАВЛЕНИЯ", 650, 105, 14, True)
+    backplane = (
+        ("Clock", 1), ("Reset", 1), ("TID", 2), ("PC", 8), ("ACC", 16),
+        ("IR", 8), ("OPERAND", 8), ("STATE", 2), ("CONTROL", 32), ("MEM", 16),
     )
-    for name, y, pin in result_ports:
-        port(0, y, "out", pin); label(name, -10, y + 4, anchor="end")
-
-    # Shared-memory interface uses true top-level buses.
-    label("MEMORY BUS", -12, 40, anchor="end", color="#ad1457")
-    port(0, 60, "out", (2460, 1420)); label("ADDRESS", -10, 64, anchor="end")
-    port(0, 100, "out", (2460, 1520)); label("WRITE ENABLE", -10, 104, anchor="end")
-    port(0, 140, "out", (2460, 1470)); label("WRITE DATA", -10, 144, anchor="end")
-    port(0, 180, "in", (100, 340)); label("READ DATA", -10, 184, anchor="end")
-
-    # Current-context debug bus along the lower edge.
-    debug = (
-        ("TID", -330, (2460, 370)), ("PC", -280, (2460, 420)),
-        ("ACC", -230, (2460, 470)), ("IR", -180, (2460, 520)),
-        ("OPER", -130, (2460, 570)), ("STATE", -80, (2460, 620)),
-        ("HALT", -30, (2460, 670)),
-    )
-    for name, x, pin in debug:
-        port(x, 300, "out", pin); label(name, x, 286, anchor="middle")
-    objects.append('<circ-anchor facing="east" x="0" y="0"/>')
-    return objects
-
-
-def core_circuit(control: list[int]) -> Circuit:
-    c = Circuit("MT16_Core")
-    c.appearance = core_appearance()
-    c.input_pin("Clock", 1, 100, 100)
-    c.input_pin("Reset", 1, 100, 140)
-    c.tunnel("Clock", 1, 100, 100)
-    c.tunnel("Reset", 1, 100, 140)
-    for tid in range(4):
-        c.input_pin(f"PROG{tid}", 8, 100, 180 + tid * 40)
-        c.tunnel(f"PROG{tid}", 8, 100, 180 + tid * 40)
-    c.input_pin("MEM", 16, 100, 340)
-    c.tunnel("MEM", 16, 100, 340)
+    for index, (name, width) in enumerate(backplane):
+        c.bus(name, width, 680, 130 + index * 20, 2220)
 
     # Round-robin hardware-thread selector.
     c.comp(3, "Adder", 300, 220, width=2)
@@ -324,6 +275,8 @@ def core_circuit(control: list[int]) -> Circuit:
     c.tunnel("TID", 2, 540, 220)
     for tid, y in enumerate((180, 190, 200, 210)):
         c.tunnel(f"ACTIVE{tid}", 1, 560, y)
+
+    c.text("4 АППАРАТНЫХ КОНТЕКСТА · PC / ACC / IR / OPERAND / STATE / ZERO / HALT", 260, 350, 14, True)
 
     # Four complete architectural contexts.
     columns = (
@@ -345,10 +298,19 @@ def core_circuit(control: list[int]) -> Circuit:
     for name, width, _, _, x in columns:
         c.mux(name, [f"{name}{tid}" for tid in range(4)], "TID", width, x + 80, 860)
 
-    # Program bytes arrive from the four visibly wired ROMs on the front panel.
-    c.mux("PROG", [f"PROG{tid}" for tid in range(4)], "TID", 8, 460, 1190)
+    # Four private program ROMs are real components on this same sheet.
+    c.text("ПРОГРАММНЫЕ ROM ЧЕТЫРЁХ ПОТОКОВ", 40, 860, 14, True)
+    summaries = ("SUM 1…10 → OUT0", "ЛОГИКА → OUT1", "СДВИГИ → OUT2", "40 + 2 → OUT3")
+    for tid, y in enumerate((900, 1060, 1220, 1380)):
+        c.memory(4, "ROM", 80, y, rom_contents(programs[tid], 8, 8),
+                 addrWidth=8, appearance="classic", dataWidth=8, label=f"THREAD {tid} PROGRAM")
+        c.tunnel(f"PC{tid}", 8, 20, y + 10); c.wire(20, y + 10, 80, y + 10)
+        c.wire(320, y + 60, 370, y + 60); c.tunnel(f"PROG{tid}", 8, 370, y + 60)
+        c.text(f"T{tid} · {summaries[tid]}", 90, y - 12, 11, True)
+    c.mux("PROG", [f"PROG{tid}" for tid in range(4)], "TID", 8, 520, 1090)
 
     # Opcode extraction and genuine microcode control store.
+    c.text("УПРАВЛЯЮЩАЯ ROM · 32-БИТНОЕ МИКРОСЛОВО", 760, 860, 14, True)
     c.bit_selector("OPCODE", "IR", 8, 0, 720, 980, group=4)
     c.memory(4, "ROM", 800, 920, rom_contents(control[:16], 4, 32),
              addrWidth=4, appearance="classic", dataWidth=32, label="CONTROL_ROM")
@@ -368,6 +330,7 @@ def core_circuit(control: list[int]) -> Circuit:
         c.bit_selector(name, "CONTROL", 32, bit, x, 980)
 
     # Microsequencer: FETCH_OPCODE -> FETCH_OPERAND -> EXECUTE.
+    c.text("МИКРОСЕКВЕНСОР · FETCH OPCODE → FETCH OPERAND → EXECUTE", 1120, 1035, 14, True)
     for state, y in enumerate((1080, 1140, 1200)):
         c.comparator_eq(f"S{state}", "STATE", state, 2, 1180, y)
     c.not_gate("RUN", "HALT", 1280, 1080)
@@ -397,6 +360,7 @@ def core_circuit(control: list[int]) -> Circuit:
     c.gate2("OR", "PC_WE", "FETCH_ANY", "BRANCH_TAKEN", 1580, 1360)
 
     # ALU candidates, accumulator writeback and zero flag.
+    c.text("АЛУ 16 БИТ · БАЗОВЫЕ СУММАТОРЫ, ЛОГИКА И СДВИГАТЕЛИ", 360, 1135, 14, True)
     add_alu(c, microcoded=True)
     c.gate2("AND", "ACC_WE", "EXECUTE", "CTRL_WACC", 920, 1740)
     c.tunnel("ACC_WE", 1, 1020, 1740); c.tunnel("ZERO_WE", 1, 1020, 1740)
@@ -410,7 +374,22 @@ def core_circuit(control: list[int]) -> Circuit:
     c.gate2("AND", "HALT_WE", "EXECUTE", "CTRL_HALT", 1420, 1840)
     c.constant(1, 1, 1520, 1840); c.tunnel("ONE", 1, 1520, 1840)
 
+    # Shared 256x16 data RAM is also exposed on the main sheet. Reset clears it,
+    # so reopening the project always starts the bundled demo from a clean state.
+    c.text("ОБЩАЯ RAM ДАННЫХ · 256 × 16", 1880, 850, 14, True)
+    c.comp(4, "RAM", 1900, 900, addrWidth=8, appearance="classic", asyncread="true",
+           byteenables="NobyteEnables", dataWidth=16, databus="bibus", enables="byte",
+           label="SHARED DATA RAM", trigger="rising", clearpin="true")
+    c.tunnel("OPERAND", 8, 1820, 910); c.wire(1820, 910, 1900, 910)
+    c.tunnel("MEM_WE", 1, 1820, 950); c.wire(1820, 950, 1900, 950)
+    c.tunnel("ONE", 1, 1820, 960); c.wire(1820, 960, 1900, 960)
+    c.tunnel("Clock", 1, 1820, 970); c.wire(1820, 970, 1900, 970)
+    c.tunnel("MEM_WRITE_DATA", 16, 1820, 990); c.wire(1820, 990, 1900, 990)
+    c.tunnel("Reset", 1, 2020, 840); c.wire(2020, 840, 2020, 900)
+    c.wire(2140, 990, 2200, 990); c.tunnel("MEM", 16, 2200, 990)
+
     # Memory-mapped output latches and atomic-counter monitor.
+    c.text("ВЫХОДНЫЕ ЗАЩЁЛКИ И АТОМАРНЫЙ СЧЁТЧИК", 1680, 1890, 14, True)
     taps = (("OUT0", 0xF0), ("OUT1", 0xF1), ("OUT2", 0xF2), ("OUT3", 0xF3),
             ("ATOMIC_COUNT", 0x30))
     for index, (name, address) in enumerate(taps):
@@ -423,123 +402,27 @@ def core_circuit(control: list[int]) -> Circuit:
     outputs = (("OUT0", 16), ("OUT1", 16), ("OUT2", 16), ("OUT3", 16),
                ("ATOMIC_COUNT", 16), ("TID", 2), ("PC", 8), ("ACC", 16),
                ("IR", 8), ("OPERAND", 8), ("STATE", 2), ("HALT", 1))
+    c.text("НАБЛЮДЕНИЕ / РЕЗУЛЬТАТЫ", 2300, 75, 14, True)
     for index, (name, width) in enumerate(outputs):
         y = 120 + index * 50
         c.output_pin(name if name != "HALT" else "CurrentHalt", width, 2460, y)
-        c.tunnel(name, width, 2460, y)
+        c.tunnel(name, width, 2380, y); c.wire(2380, y, 2460, y)
     c.comp(1, "AND Gate", 2320, 760, inputs=4)
     for tid, dy in enumerate((-20, -10, 10, 20)):
         c.tunnel(f"HALT{tid}", 1, 2270, 760 + dy)
     c.tunnel("ALL_HALTED", 1, 2320, 760)
-    c.output_pin("AllHalted", 1, 2460, 760); c.tunnel("ALL_HALTED", 1, 2460, 760)
+    c.output_pin("AllHalted", 1, 2460, 760)
+    c.tunnel("ALL_HALTED", 1, 2380, 760); c.wire(2380, 760, 2460, 760)
     for tid in range(4):
         c.output_pin(f"PC{tid}", 8, 2460, 820 + tid * 50)
-        c.tunnel(f"PC{tid}", 8, 2460, 820 + tid * 50)
+        c.tunnel(f"PC{tid}", 8, 2380, 820 + tid * 50)
+        c.wire(2380, 820 + tid * 50, 2460, 820 + tid * 50)
     c.output_pin("MEM_ADDRESS", 8, 2460, 1420)
-    c.tunnel("OPERAND", 8, 2460, 1420)
+    c.tunnel("OPERAND", 8, 2380, 1420); c.wire(2380, 1420, 2460, 1420)
     c.output_pin("MEM_WRITE_DATA", 16, 2460, 1470)
-    c.tunnel("MEM_WRITE_DATA", 16, 2460, 1470)
+    c.tunnel("MEM_WRITE_DATA", 16, 2380, 1470); c.wire(2380, 1470, 2460, 1470)
     c.output_pin("MEM_WE", 1, 2460, 1520)
-    c.tunnel("MEM_WE", 1, 2460, 1520)
-    return c
-
-
-def computer_circuit(programs: list[list[int]]) -> Circuit:
-    """Readable front panel with real wires, external ROMs and shared RAM."""
-    c = Circuit("MT16_Computer")
-    c.text("MT16 · 4-ПОТОЧНЫЙ МИКРОПРОГРАММНЫЙ КОМПЬЮТЕР", 70, 45, 26, True)
-    c.text("Программа уже в ROM: нажмите ▶ Ticks Enabled — вычисления начнутся сразу", 70, 75, 15)
-    c.text("УПРАВЛЕНИЕ", 70, 105, 14, True)
-
-    # The built-in clock starts when Logisim's single Play/Ticks button is enabled.
-    # Clock/Reset pins remain connected for deterministic headless test vectors.
-    c.comp(0, "Clock", 150, 130)
-    c.input_pin("Clock", 1, 90, 170)
-    c.text("автотакт", 170, 135, 11)
-    c.comp(5, "Button", 150, 230)
-    c.input_pin("Reset", 1, 90, 270)
-    c.text("сброс", 170, 235, 11)
-    c.comp(1, "OR Gate", 270, 150)
-    c.wire(150, 130, 220, 130); c.wire(90, 170, 220, 170)
-    c.comp(1, "OR Gate", 270, 250)
-    c.wire(150, 230, 220, 230); c.wire(90, 270, 220, 270)
-
-    # The compact symbol is the verified microcoded engine. Its pins are placed
-    # deliberately so the top-level buses read like a computer block diagram.
-    c.subcircuit("MT16_Core", 1000, 600)
-    c.wire(270, 150, 600, 150); c.wire(600, 150, 600, 320); c.wire(600, 320, 640, 320)
-    c.wire(270, 250, 620, 250); c.wire(620, 250, 620, 350); c.wire(620, 350, 640, 350)
-    c.wire(620, 250, 1650, 250); c.wire(1650, 250, 1650, 630)
-    c.wire(1650, 630, 1360, 630); c.wire(1360, 630, 1360, 650)
-
-    # Four private program ROMs. Address and instruction bytes travel on visible
-    # buses to make the round-robin execution easy to follow on screen.
-    c.text("ПРОГРАММЫ ПОТОКОВ · 4 × ROM 256 × 8", 290, 320, 14, True)
-    summaries = (
-        "SUM 1…10 → OUT0",
-        "AND · OR · XOR · NOT → OUT1",
-        "SHL · SHR → OUT2",
-        "40 + 2 → OUT3",
-    )
-    for tid, y in enumerate((380, 500, 620, 740)):
-        c.memory(4, "ROM", 300, y, rom_contents(programs[tid], 8, 8),
-                 addrWidth=8, appearance="classic", dataWidth=8, label=f"THREAD {tid} PROGRAM")
-        pc_y = 400 + tid * 120
-        program_y = 440 + tid * 120
-        address_y = y + 10
-        data_y = y + 60
-        c.wire(640, pc_y, 590, pc_y)
-        c.wire(590, pc_y, 590, address_y)
-        c.wire(590, address_y, 300, address_y)
-        c.wire(540, data_y, 640, data_y)
-        c.text(f"T{tid}", 270, y + 42, 16, True)
-        c.text(summaries[tid], 310, y - 12, 11, True)
-
-    # Shared data RAM is outside the core symbol and connected by true buses.
-    c.text("ОБЩАЯ ПАМЯТЬ ДАННЫХ 256 × 16", 1210, 615, 15, True)
-    c.comp(4, "RAM", 1240, 650, addrWidth=8, appearance="classic", asyncread="true",
-           byteenables="NobyteEnables", dataWidth=16, databus="bibus", enables="byte",
-           label="SHARED RAM", trigger="rising", clearpin="true")
-    c.wire(1000, 660, 1240, 660)
-    c.wire(1000, 700, 1240, 700)
-    c.wire(1000, 740, 1240, 740)
-    c.constant(1, 1, 1200, 710); c.wire(1200, 710, 1240, 710)
-    c.wire(600, 320, 600, 930); c.wire(600, 930, 1180, 930)
-    c.wire(1180, 930, 1180, 720); c.wire(1180, 720, 1240, 720)
-    c.wire(1480, 740, 1520, 740); c.wire(1520, 740, 1520, 780)
-    c.wire(1520, 780, 1000, 780)
-
-    # Result panel: every value is both visible and exported for test vectors.
-    c.text("РЕЗУЛЬТАТЫ ВСТРОЕННОЙ ПРОГРАММЫ", 1120, 285, 15, True)
-    results = (
-        ("OUT0 · сумма 1…10", "OUT0", 16, 360),
-        ("OUT1 · логика", "OUT1", 16, 400),
-        ("OUT2 · сдвиги", "OUT2", 16, 440),
-        ("OUT3 · арифметика", "OUT3", 16, 480),
-        ("ATOMIC · 4 потока", "ATOMIC_COUNT", 16, 520),
-    )
-    for title, label, width, y in results:
-        c.wire(1000, y, 1600, y)
-        c.text(title, 1120, y - 8, 11, True)
-        c.output_pin(label, width, 1600, y)
-    c.wire(1000, 560, 1600, 560)
-    c.comp(5, "LED", 1370, 560, offColor="#37474f", onColor="#00c853")
-    c.text("ГОТОВО / ALL HALTED", 1400, 565, 11, True)
-    c.output_pin("AllHalted", 1, 1600, 560)
-
-    # Current context monitor. The vertical lines visibly pulse as scheduler TID
-    # moves through fetch opcode, fetch operand and execute.
-    c.text("ТЕКУЩИЙ КОНТЕКСТ / ОТЛАДКА", 730, 965, 15, True)
-    debug = (
-        ("TID", 2, 670), ("PC", 8, 720), ("ACC", 16, 770),
-        ("IR", 8, 820), ("OPERAND", 8, 870), ("STATE", 2, 920),
-        ("CurrentHalt", 1, 970),
-    )
-    for label, width, x in debug:
-        c.wire(x, 900, x, 1030)
-        c.comp(0, "Pin", x, 1030, appearance="NewPins", facing="north", label=label,
-               type="output", width=width if width != 1 else None)
-    c.text("FETCH OPCODE  →  FETCH OPERAND  →  EXECUTE  →  следующий поток", 660, 1190, 14, True)
+    c.tunnel("MEM_WE", 1, 2380, 1520); c.wire(2380, 1520, 2460, 1520)
     return c
 
 
@@ -597,7 +480,7 @@ def main() -> int:
     for word in MICROCODE:
         control[int(word.opcode)] = word.encode()
     circuits = [alu_circuit(), microcode_circuit(control), scheduler_circuit(),
-                core_circuit(control), computer_circuit(image.programs)]
+                computer_circuit(image.programs, control)]
     project = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project source="4.1.0" version="1.0">
   <lib desc="#Wiring" name="0"/><lib desc="#Gates" name="1"/><lib desc="#Plexers" name="2"/><lib desc="#Arithmetic" name="3"/><lib desc="#Memory" name="4"/><lib desc="#I/O" name="5"/><lib desc="#TTL" name="6"/><lib desc="#TCL" name="7"/><lib desc="#Base" name="8"/>
